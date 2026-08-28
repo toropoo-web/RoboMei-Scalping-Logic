@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RoboMei Scalping Logic | BIG STATE</title>
-  <meta name="description" content="Big State Scalping Logic — Thrust、乖離、乖離埋め、Granville ChanceからENTRY Pointを策定するロジック。">
+  <title>G Scal | RoboMei Interpretation</title>
+  <meta name="description" content="G Scal — RoboMei Interpretation. State Judge、Thrust認定、Tradeable、Granville ChanceからENTRYを構築する。現在公開する詳細Logicは BIG STATE。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -314,6 +314,180 @@
       letter-spacing: 0.06em;
     }
 
+    .tree {
+      text-align: center;
+      padding: 28px 20px 24px;
+    }
+    .tree-node {
+      display: inline-block;
+      background: var(--dodgers);
+      color: #fff;
+      font: 700 13px/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      padding: 12px 22px;
+      border-radius: 8px;
+    }
+    .tree-stem {
+      width: 1px;
+      height: 22px;
+      margin: 0 auto;
+      background: var(--dodgers);
+    }
+    .tree-bar {
+      width: min(420px, 80%);
+      height: 1px;
+      margin: 0 auto;
+      background: var(--dodgers);
+    }
+    .tree-fork {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .tree-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tree-col .tree-stem { height: 18px; }
+    .tree-leaf {
+      width: 100%;
+      max-width: 280px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 14px;
+    }
+    .tree-leaf b {
+      display: block;
+      color: var(--dodgers);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .tree-leaf span {
+      display: block;
+      margin-top: 6px;
+      font: 700 18px/1.3 "IBM Plex Mono", monospace;
+      color: var(--text);
+    }
+
+    .state-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .state-card { padding: 24px; }
+    .state-card .metrics {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      flex: 1;
+      border: 1px solid #B8D0E4;
+      background: #F0F6FB;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    .metric em {
+      display: block;
+      font-style: normal;
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .metric strong {
+      font: 800 28px/1 "IBM Plex Mono", monospace;
+      color: var(--text);
+    }
+    .state-card p { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+
+    .same-logic {
+      margin-top: 16px;
+      padding: 18px 20px;
+    }
+    .same-logic strong { display: block; margin-bottom: 6px; }
+    .same-logic .flowline { margin-top: 12px; }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .compare .card { padding: 24px; }
+    .compare h3 { margin: 8px 0 12px; font-size: 20px; }
+    .compare dl { margin: 0; }
+    .compare dt {
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      letter-spacing: 0.08em;
+      margin-top: 12px;
+    }
+    .compare dt:first-child { margin-top: 0; }
+    .compare dd { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+
+    .core-steps {
+      display: grid;
+      gap: 8px;
+    }
+    .core-step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px 16px;
+    }
+    .core-step em {
+      font-style: normal;
+      font: 700 12px/1.4 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+    }
+    .core-step b { display: block; }
+    .core-step span { color: var(--muted); font-size: 13px; }
+
+    .split-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .split-2 .card { padding: 24px; }
+    .chicken b { color: var(--dodgers); display: block; margin-bottom: 8px; font-size: 13px; letter-spacing: 0.04em; }
+    .chicken .quote {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 12px;
+      line-height: 1.45;
+    }
+    .setup-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .setup-pair div {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      background: #F7FAFC;
+    }
+    .setup-pair em {
+      display: block;
+      font-style: normal;
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .chapter {
+      border-top: 3px solid var(--dodgers);
+    }
+    .chapter-head { margin-bottom: 8px; }
+
     footer {
       border-top: 3px solid var(--dodgers);
       background: #F7FBFF;
@@ -345,7 +519,7 @@
     .credit-links a:hover { text-decoration: underline; }
 
     @media (max-width: 900px) {
-      .heroGrid, .case, .matrix { grid-template-columns: 1fr; }
+      .heroGrid, .case, .matrix, .tree-fork, .state-cards, .compare, .split-2, .setup-pair { grid-template-columns: 1fr; }
       .defs, .qs { grid-template-columns: 1fr; }
       .cycle, .decision { grid-template-columns: 1fr 1fr; }
       .sh { grid-template-columns: 1fr; }
@@ -362,12 +536,13 @@
 <body>
   <header>
     <div class="w nav">
-      <div class="brand"><span>RoboMei</span> Scalping Logic</div>
+      <div class="brand"><span>G Scal</span> · RoboMei</div>
       <nav>
-        <a href="#cycle">Cycle</a>
-        <a href="#core">3 Questions</a>
-        <a href="#entry">Entry</a>
-        <a href="#case">Case</a>
+        <a href="#overview">Overview</a>
+        <a href="#state">State</a>
+        <a href="#thrust">Thrust</a>
+        <a href="#style">Style</a>
+        <a href="#big-state">Big State</a>
       </nav>
     </div>
   </header>
@@ -376,25 +551,189 @@
     <section class="hero">
       <div class="w heroGrid">
         <div>
-          <span class="kicker">SCALPING LOGIC / PUBLIC PREVIEW</span>
-          <div class="product">RoboMei Scalping Logic</div>
-          <h1>BIG<br>STATE</h1>
-          <p class="sub">大きな値動きを追わない。<br>次のENTRY Pointが形成されるまで待つ。</p>
-          <p class="intro">経済指標等による大きな値動きで、まず確認するのは<strong>実体CandleによるThrust</strong>。その後は、値動きとMAの関係から次のENTRY Pointを策定します。</p>
-          <div class="flowline" aria-label="Core Flow">
-            <b>THRUST</b><span>→</span>
-            <b>KAIRI</b><span>→</span>
-            <b>FILL</b><span>→</span>
-            <b>GRANVILLE CHANCE</b><span>→</span>
-            <b>ENTRY</b><span>→</span>
-            <b>WAIT</b>
+          <span class="kicker">G SCAL / PUBLIC PREVIEW</span>
+          <div class="product">RoboMei Interpretation</div>
+          <h1>G<br>SCAL</h1>
+          <p class="sub">THRUSTを認定する。<br>トレンドの一部を獲得する。</p>
+          <p class="intro">G Scal は、形成されたトレンドの天井から底まで全てを取り切ることを目的としません。State Judge のあと Thrust を認定し、Tradeable になってから ENTRY を構築します。現在公開する詳細 Logic は <strong>BIG STATE</strong> です。</p>
+          <p class="intro" style="margin-top:12px"><strong>大きな値動きを追わない。次のENTRY Pointが形成されるまで待つ。</strong></p>
+          <div class="flowline" aria-label="G Scal structure">
+            <b>STANDARD STATE</b><span>/</span>
+            <b>BIG STATE</b>
           </div>
         </div>
         <aside class="mei">
           <div class="mei-label">ROBOT MEI // LOGIC NAVIGATOR</div>
           <img src="assets/robot-mei.jpg" alt="Robot Mei">
-          <div class="meiNote"><b>Robot Mei:</b> ENTRY位置を暗記しない。Thrust方向と現在地を特定し、次のGranville Chanceを探す。</div>
+          <div class="meiNote"><b>Robot Mei:</b> 判断は RoboMei。ENTRY位置を暗記しない。Thrust方向と現在地を特定し、次のGranville Chanceを探す。</div>
         </aside>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="w">
+        <div class="sh">
+          <div class="no">G SCAL</div>
+          <div>
+            <h2>RoboMei Interpretation の全体像。</h2>
+            <p class="lead">G Scal は State Judge から始まる。現在の相場を STANDARD STATE または BIG STATE として扱ったあと、Thrust Judge で Tradeable かどうかを見る。BIG STATE と STANDARD STATE は完全に別の Trading Logic ではない。今回詳細を公開するのは BIG STATE。STANDARD STATE の詳細 Logic は今回創作しない。</p>
+          </div>
+        </div>
+        <div class="card tree" id="state">
+          <div class="tree-node">STATE JUDGE</div>
+          <div class="tree-stem"></div>
+          <div class="tree-bar"></div>
+          <div class="tree-fork">
+            <div class="tree-col">
+              <div class="tree-stem"></div>
+              <div class="tree-leaf">
+                <b>STANDARD STATE</b>
+                <span>TP 35 / LC 60</span>
+              </div>
+            </div>
+            <div class="tree-col">
+              <div class="tree-stem"></div>
+              <div class="tree-leaf">
+                <b>BIG STATE</b>
+                <span>TP 60 / LC 100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="observe">参考元である加藤ムネヒサ氏は State Judge を ○ / × として説明している。RoboMei Interpretation では、指標等による特殊な State を BIG STATE として扱い、それ以外の大半を STANDARD STATE として扱う。指標なら必ず Big State、という機械的な断定はしない。</p>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="w">
+        <div class="sh">
+          <div class="no">STATE</div>
+          <div>
+            <h2>State によって切り替えるのは TP / LC。</h2>
+            <p class="lead">共通する基本思想は同じ。State Judge → Thrust認定 → Tradeable → 乖離 → 乖離埋め → Granville Chance → ENTRY → トレンドの一部を獲得。切り替えるのは TP / LC の設定。</p>
+          </div>
+        </div>
+        <div class="state-cards">
+          <div class="card state-card">
+            <span class="badge">STANDARD STATE</span>
+            <div class="metrics">
+              <div class="metric"><em>TP</em><strong>35</strong></div>
+              <div class="metric"><em>LC</em><strong>60</strong></div>
+            </div>
+            <p>大半の State。今回、詳細 Logic は公開しない。</p>
+          </div>
+          <div class="card state-card">
+            <span class="badge">BIG STATE</span>
+            <div class="metrics">
+              <div class="metric"><em>TP</em><strong>60</strong></div>
+              <div class="metric"><em>LC</em><strong>100</strong></div>
+            </div>
+            <p>現在公開する詳細 Logic。下の BIG STATE 本文へ続く。</p>
+          </div>
+        </div>
+        <div class="card same-logic">
+          <strong>同じ Core Logic を使う。</strong>
+          <p class="lead">State によって全く別のロジックを使う、という構造ではない。</p>
+          <div class="flowline" aria-label="Shared core">
+            <b>STATE JUDGE</b><span>→</span>
+            <b>THRUST</b><span>→</span>
+            <b>TRADEABLE</b><span>→</span>
+            <b>KAIRI</b><span>→</span>
+            <b>FILL</b><span>→</span>
+            <b>GRANVILLE CHANCE</b><span>→</span>
+            <b>ENTRY</b>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="thrust">
+      <div class="w">
+        <div class="sh">
+          <div class="no">THRUST</div>
+          <div>
+            <h2>Thrust は Tradeable Judge。</h2>
+            <p class="lead">Thrust は単なる値動きの名称ではない。RoboMei が「トレード可能な State になった」と認定する Judge。Thrust 認定の前に ENTRY を探しにいかない。流れは STATE JUDGE → THRUST JUDGE → THRUST認定 → TRADEABLE。</p>
+          </div>
+        </div>
+        <div class="compare">
+          <div class="card">
+            <span class="badge">REFERENCE</span>
+            <h3>参考としている基本</h3>
+            <dl>
+              <dt>EMA13</dt>
+              <dd>Not Touch</dd>
+              <dt>SIZE</dt>
+              <dd>150 pips</dd>
+            </dl>
+            <p class="observe" style="margin-top:16px">加藤ムネヒサ氏の正確な定義として断定する文章ではない。RoboMei が参考としている基本。</p>
+          </div>
+          <div class="card">
+            <span class="badge">ROBO MEI</span>
+            <h3>Interpretation</h3>
+            <dl>
+              <dt>WICK TOUCH</dt>
+              <dd>EMA13へのヒゲ程度の接触は、場合により許容することがある。</dd>
+              <dt>THRUST GUIDE</dt>
+              <dd>およそ 100–120 pips 程度から、Thrust 認定候補として見る。</dd>
+            </dl>
+            <p class="observe" style="margin-top:16px">100 pips = 自動認定、ではない。100–120 pips は REFERENCE / GUIDE / 目安。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="core-gscal">
+      <div class="w">
+        <div class="sh">
+          <div class="no">CORE</div>
+          <div>
+            <h2>G Scal が狙うのは、トレンドの一部。</h2>
+            <p class="lead">THRUSTを認定する。トレンドの一部を獲得する。天井から底まで取り切ることが目的ではない。</p>
+          </div>
+        </div>
+        <div class="card core-steps">
+          <div class="core-step"><em>01</em><div><b>STATE JUDGE</b><span>STANDARD STATE または BIG STATE として扱う。</span></div></div>
+          <div class="core-step"><em>02</em><div><b>THRUST JUDGE</b><span>Tradeable かどうかを認定する。</span></div></div>
+          <div class="core-step"><em>03</em><div><b>TRADEABLE</b><span>Thrust 認定後に、乖離 → 乖離埋め → Granville Chance を見る。</span></div></div>
+          <div class="core-step"><em>04</em><div><b>ENTRY</b><span>次の ENTRY Point が形成されるまで待つ。</span></div></div>
+          <div class="core-step"><em>05</em><div><b>PARTIAL CAPTURE</b><span>形成されたトレンドの一部を獲得する。</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="style">
+      <div class="w">
+        <div class="split-2">
+          <div class="card chicken">
+            <span class="badge">ROBO MEI STYLE</span>
+            <b>得意技：チキン利確</b>
+            <p class="quote">「また利確したあと走った……」</p>
+            <p class="lead">それでもいい。これは RoboMei 自身の Trading Style。チキン利確が正しい、という一般論ではない。G Scal はトレンド全部を取り切ることを目的にしない。Thrust 認定後、形成されたトレンドの一部を獲得する。</p>
+          </div>
+          <div class="card" id="setup">
+            <span class="badge">ROBO MEI TRADING SETUP</span>
+            <h3 style="margin:8px 0 10px;font-size:20px;">判断と操作を分ける。</h3>
+            <p class="lead">筆者は ENTRY / EXIT 操作を簡単にするため、専用 EA を使用している。EA の役割は ENTRY 操作と EXIT 操作を簡単にすること。</p>
+            <div class="setup-pair">
+              <div><em>JUDGE</em><strong>RoboMei</strong></div>
+              <div><em>EXECUTION</em><strong>Simple ENTRY / EXIT EA</strong></div>
+            </div>
+            <p class="observe" style="margin-top:16px">State Judge / Thrust Judge / Granville Judge / ENTRY Judge を EA が自動判定している、という説明ではない。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt chapter" id="big-state">
+      <div class="w chapter-head">
+        <div class="sh">
+          <div class="no">BIG STATE</div>
+          <div>
+            <h2>現在公開する詳細 Logic。</h2>
+            <p class="lead">ここから下は既存の BIG STATE 本文。大きな値動きを追わない。次のENTRY Pointが形成されるまで待つ。</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -579,7 +918,7 @@
 
   <footer>
     <div class="w">
-      <div class="foot-brand">RoboMei Scalping Logic — BIG STATE / Public Preview</div>
+      <div class="foot-brand">G Scal — RoboMei Interpretation / BIG STATE Public Preview</div>
       <div class="credit">
         <p>本ロジックの構築にあたり、加藤ムネヒサ氏（FXゴールドナビ）が公開されているトレードロジックを参考にさせていただいています。</p>
         <p>本ページでは、それを参考にした上で、実際のチャート観察・検証を通じて独自に解釈・整理した内容を掲載しています。</p>
