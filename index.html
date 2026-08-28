@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboMei Scalping Logic | BIG STATE</title>
+  <meta name="description" content="Big State Scalping Logic — Thrust、乖離、乖離埋め、Granville ChanceからENTRY Pointを策定するロジック。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dodgers: #005A9C;
+      --dodgers-deep: #003F6E;
+      --bg: #FFFFFF;
+      --section: #F3F6F9;
+      --text: #102A43;
+      --muted: #52667A;
+      --line: #D5DEE8;
+      --card: #FFFFFF;
+      --shadow: 0 4px 16px rgba(16, 42, 67, 0.05);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+      line-height: 1.85;
+    }
+
+    a { color: var(--dodgers); }
+    .w { width: min(1120px, calc(100% - 40px)); margin: auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .brand span { color: var(--dodgers); }
+    nav a {
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--muted);
+      margin-left: 20px;
+      font-weight: 500;
+    }
+    nav a:hover { color: var(--dodgers); }
+
+    .hero {
+      padding: 72px 0 56px;
+      background:
+        linear-gradient(180deg, #F7FAFC 0%, #FFFFFF 70%);
+    }
+    .heroGrid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .kicker {
+      display: inline-block;
+      border: 1px solid #B8D0E4;
+      color: var(--dodgers);
+      background: #F0F6FB;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+    .product {
+      margin: 18px 0 8px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--dodgers);
+    }
+    h1 {
+      font-size: clamp(52px, 7vw, 84px);
+      line-height: 0.92;
+      margin: 0 0 18px;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+    .sub {
+      font-size: clamp(20px, 2.6vw, 28px);
+      font-weight: 800;
+      line-height: 1.45;
+      margin: 0 0 16px;
+    }
+    .intro { color: var(--muted); max-width: 640px; }
+    .intro strong { color: var(--text); }
+
+    .flowline {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .flowline b,
+    .flowline span {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+    .flowline b {
+      color: #fff;
+      background: var(--dodgers);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .flowline span {
+      color: var(--dodgers);
+    }
+
+    .mei {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .mei-label {
+      color: var(--dodgers);
+      font: 600 11px/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .mei img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      background: #F7FAFC;
+      object-fit: cover;
+    }
+    .meiNote {
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+    .meiNote b { color: var(--text); }
+
+    section { padding: 72px 0; }
+    section.alt { background: var(--section); }
+
+    .sh {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .no {
+      font: 700 12px/1.4 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      padding-top: 8px;
+      letter-spacing: 0.08em;
+    }
+    h2 {
+      font-size: clamp(26px, 3.4vw, 40px);
+      line-height: 1.25;
+      margin: 0 0 10px;
+    }
+    .lead { color: var(--muted); max-width: 860px; margin: 0; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .defs, .qs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .def, .q, .pat { padding: 22px; }
+    .def b, .pat b { color: var(--dodgers); display: block; margin-bottom: 8px; font-size: 13px; letter-spacing: 0.04em; }
+    .def p, .q p, .pat p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    .observe {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      border-left: 3px solid var(--dodgers);
+      padding: 10px 14px;
+      background: #fff;
+    }
+
+    .cycle {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .node b { display: block; color: var(--text); font-size: 12px; margin-bottom: 4px; }
+    .node.hot {
+      border-color: #9DC0DC;
+      background: #F0F6FB;
+    }
+    .node.hot b { color: var(--dodgers); }
+
+    .q .n {
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      letter-spacing: 0.08em;
+    }
+    .q h3 { font-size: 18px; margin: 10px 0 8px; }
+    .q ul { font-size: 13px; color: var(--muted); padding-left: 18px; margin: 0; }
+
+    .wait {
+      border-left: 3px solid var(--dodgers);
+      padding: 22px 24px;
+    }
+    .wait strong { font-size: 20px; display: block; margin-bottom: 8px; }
+
+    .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .pat .key {
+      margin-top: 13px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--text);
+      font-size: 12px;
+    }
+    .letter {
+      display: inline-flex;
+      width: 22px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      background: var(--dodgers);
+      color: #fff;
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      margin-right: 6px;
+    }
+
+    .decision {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .step {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: #fff;
+    }
+    .step b { display: block; color: var(--text); margin: 4px 0 6px; }
+    .step em {
+      font-style: normal;
+      color: var(--dodgers);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .case { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .case .card { padding: 24px; }
+    .point {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .point:last-child { border-bottom: 0; }
+    .point b {
+      color: #fff;
+      background: var(--dodgers);
+      display: inline-flex;
+      min-width: 28px;
+      justify-content: center;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-right: 8px;
+      font-size: 11px;
+    }
+    .final { padding: 26px; border-left: 3px solid var(--dodgers); }
+    .badge {
+      display: inline-block;
+      font: 700 11px/1 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      border: 1px solid #B8D0E4;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    footer {
+      border-top: 3px solid var(--dodgers);
+      background: #F7FBFF;
+      padding: 40px 0 48px;
+      color: var(--muted);
+    }
+    .foot-brand {
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .credit {
+      font-size: 13px;
+      line-height: 1.8;
+      max-width: 720px;
+    }
+    .credit p { margin: 0 0 12px; }
+    .credit-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 8px;
+    }
+    .credit-links a {
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .credit-links a:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .heroGrid, .case, .matrix { grid-template-columns: 1fr; }
+      .defs, .qs { grid-template-columns: 1fr; }
+      .cycle, .decision { grid-template-columns: 1fr 1fr; }
+      .sh { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+    @media (max-width: 520px) {
+      .cycle, .decision { grid-template-columns: 1fr; }
+      .w { width: calc(100% - 24px); }
+      .hero { padding: 40px 0 32px; }
+      section { padding: 48px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="w nav">
+      <div class="brand"><span>RoboMei</span> Scalping Logic</div>
+      <nav>
+        <a href="#cycle">Cycle</a>
+        <a href="#core">3 Questions</a>
+        <a href="#entry">Entry</a>
+        <a href="#case">Case</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="w heroGrid">
+        <div>
+          <span class="kicker">SCALPING LOGIC / PUBLIC PREVIEW</span>
+          <div class="product">RoboMei Scalping Logic</div>
+          <h1>BIG<br>STATE</h1>
+          <p class="sub">大きな値動きを追わない。<br>次のENTRY Pointが形成されるまで待つ。</p>
+          <p class="intro">経済指標等による大きな値動きで、まず確認するのは<strong>実体CandleによるThrust</strong>。その後は、値動きとMAの関係から次のENTRY Pointを策定します。</p>
+          <div class="flowline" aria-label="Core Flow">
+            <b>THRUST</b><span>→</span>
+            <b>KAIRI</b><span>→</span>
+            <b>FILL</b><span>→</span>
+            <b>GRANVILLE CHANCE</b><span>→</span>
+            <b>ENTRY</b><span>→</span>
+            <b>WAIT</b>
+          </div>
+        </div>
+        <aside class="mei">
+          <div class="mei-label">ROBOT MEI // LOGIC NAVIGATOR</div>
+          <img src="assets/robot-mei.jpg" alt="Robot Mei">
+          <div class="meiNote"><b>Robot Mei:</b> ENTRY位置を暗記しない。Thrust方向と現在地を特定し、次のGranville Chanceを探す。</div>
+        </aside>
+      </div>
+    </section>
+
+    <section>
+      <div class="w">
+        <div class="sh">
+          <div class="no">00 / DEFINE</div>
+          <div>
+            <h2>Big Stateを認定する。</h2>
+            <p class="lead">経済指標が発表されたこと自体をBig Stateとはしません。発表直後の乱高下を経て、実体Candleによる明確なThrustを確認したところから判定を開始します。</p>
+          </div>
+        </div>
+        <div class="defs">
+          <div class="card def"><b>BIG STATE</b><p>実体Candleによって明確なThrustが確認された相場状態。</p></div>
+          <div class="card def"><b>THRUST</b><p>実体Candleによる方向性の明確な値動き。</p></div>
+          <div class="card def"><b>KAIRI / 乖離</b><p>CandleとEMA5/6、EMA13、SMA20等との価格差。</p></div>
+          <div class="card def"><b>乖離埋め</b><p>Thrustで生じた乖離を解消する方向への戻し。</p></div>
+          <div class="card def"><b>GRANVILLE CHANCE</b><p>乖離をShortCandle形成によって埋めに掛かる局面。次のENTRY構築の起点。</p></div>
+          <div class="card def"><b>BIG RESISTANCE</b><p>前日高安値・上位足MA200等、Thrust進行を一時的に止め得る強い節目。</p></div>
+        </div>
+        <p class="observe">価格・Candle・MAは、市場参加者の判断と注文の結果として現れた「観測材料」です。</p>
+      </div>
+    </section>
+
+    <section class="alt" id="cycle">
+      <div class="w">
+        <div class="sh">
+          <div class="no">01 / CYCLE</div>
+          <div>
+            <h2>ENTRYではなく、サイクルを見る。</h2>
+            <p class="lead">一つの形を暗記するのではなく、現在のChartがサイクルのどこにいるかを先に判断します。</p>
+          </div>
+        </div>
+        <div class="card cycle">
+          <div class="node hot"><b>THRUST</b>方向発生</div>
+          <div class="node"><b>KAIRI</b>乖離拡大</div>
+          <div class="node"><b>FILL</b>乖離埋め</div>
+          <div class="node hot"><b>GRANVILLE</b>ShortCandle</div>
+          <div class="node"><b>ENTRY</b>判定</div>
+          <div class="node"><b>RE-THRUST</b>再進行</div>
+          <div class="node"><b>WAIT</b>次のChance</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="core">
+      <div class="w">
+        <div class="sh">
+          <div class="no">02 / CORE</div>
+          <div>
+            <h2>ENTRYを探す「3つの問い」。</h2>
+            <p class="lead">未知のChartでも、ShortCandleが形成されるたびに同じ3問を問い直します。</p>
+          </div>
+        </div>
+        <div class="qs">
+          <div class="card q">
+            <span class="n">QUESTION 01</span>
+            <h3>Thrustはどちら方向か？</h3>
+            <p>実体CandleによるThrustが確認できていなければENTRY判定へ進みません。</p>
+          </div>
+          <div class="card q">
+            <span class="n">QUESTION 02</span>
+            <h3>今はサイクルのどこか？</h3>
+            <ul>
+              <li>乖離拡大中 → 追わない</li>
+              <li>乖離埋め中 → 観察</li>
+              <li>Granville形成 → ENTRY判定へ</li>
+            </ul>
+          </div>
+          <div class="card q">
+            <span class="n">QUESTION 03</span>
+            <h3>ShortCandleとMAの位置関係は？</h3>
+            <ul>
+              <li>乖離解消済みか</li>
+              <li>EMA13 Resistance / Supportか</li>
+              <li>EMA5/6を再び踏んだか</li>
+              <li>Perfect Order再形成か</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="w">
+        <div class="card wait">
+          <strong>行き過ぎたThrustを追わない。</strong>
+          <p class="lead">CandleがMAから大きく乖離したらWAIT。進行方向のBig Resistance / Supportを確認し、停止 → 戻し → 乖離埋め → 次のGranville Chanceを観察します。反発したことだけを理由に逆方向ENTRYとはしません。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="entry">
+      <div class="w">
+        <div class="sh">
+          <div class="no">03 / ENTRY</div>
+          <div>
+            <h2>ENTRY Pointは条件の組み合わせで策定する。</h2>
+            <p class="lead">次の条件は排他的ではありません。複数が重なる場合も、Perfect Order完成前にENTRYを策定する場合もあります。</p>
+          </div>
+        </div>
+        <div class="matrix">
+          <div class="card pat">
+            <b><span class="letter">A</span>乖離埋め</b>
+            <p>ShortCandle / CrossCandleのShadowを含め、CandleとMAとの乖離が解消されたかを見る。</p>
+            <div class="key">CrossCandleという名称より「乖離が埋まったか」。</div>
+          </div>
+          <div class="card pat">
+            <b><span class="letter">B</span>EMA13 Resistance / Support</b>
+            <p>乖離埋めの先でEMA13等がResistance / Supportとして機能し、ShortCandleを形成。</p>
+            <div class="key">EMA5/6の一時逆行だけでThrust否定とはしない。</div>
+          </div>
+          <div class="card pat">
+            <b><span class="letter">C</span>EMA5/6へ再び戻る</b>
+            <p>早いENTRYを見送った場合、EMA5/6を再びThrust方向へ踏む局面まで待つ。</p>
+            <div class="key">次のGranville Chanceまで待つ選択。</div>
+          </div>
+          <div class="card pat">
+            <b><span class="letter">D</span>Perfect Order再形成</b>
+            <p>短期・中期・長期MAがThrust方向へ再び整列し、ShortCandle形成が重なる。</p>
+            <div class="key">唯一の必須条件にはしない。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="flow">
+      <div class="w">
+        <div class="sh">
+          <div class="no">04 / FLOW</div>
+          <div>
+            <h2>未知のChartで使う判定フロー。</h2>
+          </div>
+        </div>
+        <div class="card decision">
+          <div class="step"><em>01</em><b>実体Thrust?</b>NO → WAIT / YES → Big State</div>
+          <div class="step"><em>02</em><b>方向は?</b>UP → BUY側 / DOWN → SELL側</div>
+          <div class="step"><em>03</em><b>大きく乖離?</b>YESなら追わない。</div>
+          <div class="step"><em>04</em><b>Big Resistance?</b>停止・反発を織り込む。</div>
+          <div class="step"><em>05</em><b>乖離埋め?</b>MAへの引きつけを観察。</div>
+          <div class="step"><em>06</em><b>Short / Cross?</b>MAとの位置関係を見る。</div>
+          <div class="step"><em>07</em><b>ENTRY策定?</b>乖離解消／EMA13／EMA5/6／PO。</div>
+          <div class="step"><em>08</em><b>再乖離?</b>追わず次のGranvilleへ。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case">
+      <div class="w">
+        <div class="sh">
+          <div class="no">05 / CASE</div>
+          <div>
+            <h2>Jackson Hole 2026｜適用例</h2>
+            <p class="lead">2026/08/28 23:00 JPT。ここは普遍ロジック（UNIVERSAL LOGIC）とは分離し、上記の判断を実際のChartへ適用した Case Study / Application Example として扱います。</p>
+          </div>
+        </div>
+        <div class="case">
+          <div class="card">
+            <div class="badge">CASE STUDY</div>
+            <div class="point"><b>@</b>Down Thrust後のCrossCandle。Shadowを含めEMA5/6との乖離解消を判断。</div>
+            <div class="point"><b>A</b>乖離埋め完了。Thrust方向維持を前提にENTRY候補。</div>
+            <div class="point"><b>★</b>EMA13 Resistance + ShortCandle。Granville Chance形成。</div>
+            <div class="point"><b>B</b>SMA20 Touch後、Big Bear Candleで戻り上昇を否定。Descending Triangleを観察。</div>
+          </div>
+          <div class="card">
+            <h3>実例の「場所」をコピーしない。</h3>
+            <p class="lead">次のBig Stateで探すのは同じ座標ではありません。①Thrust方向、②現在地、③ShortCandleとMAの位置関係を、その場のChartへ問い直します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" style="padding-top: 24px;">
+      <div class="w">
+        <div class="card final">
+          <strong>最終的に覚えるのは「3つだけ」。</strong>
+          <p class="lead">Thrustの方向を決める。現在地を決める。ShortCandleとMAの位置関係から、次のThrustが始まり得るENTRY Pointを策定する。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="w">
+      <div class="foot-brand">RoboMei Scalping Logic — BIG STATE / Public Preview</div>
+      <div class="credit">
+        <p>本ロジックの構築にあたり、加藤ムネヒサ氏（FXゴールドナビ）が公開されているトレードロジックを参考にさせていただいています。</p>
+        <p>本ページでは、それを参考にした上で、実際のチャート観察・検証を通じて独自に解釈・整理した内容を掲載しています。</p>
+        <div class="credit-links">
+          <a href="https://www.youtube.com/@fx-gold-navi" target="_blank" rel="noopener noreferrer">FXゴールドナビ — YouTube</a>
+          <a href="https://golden-evolution.biz/" target="_blank" rel="noopener noreferrer">加藤ムネヒサ氏 公式サイト</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
