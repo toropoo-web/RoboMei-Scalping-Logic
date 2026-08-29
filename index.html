@@ -182,8 +182,8 @@
 
     .sh {
       display: grid;
-      grid-template-columns: 132px 1fr;
-      gap: 20px;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 24px;
       margin-bottom: 28px;
     }
     .no {
@@ -205,9 +205,16 @@
     }
     .no .jp { font-size: 11px; letter-spacing: 0.02em; }
     h2 {
-      font-size: clamp(26px, 3.4vw, 40px);
-      line-height: 1.25;
+      font-size: clamp(26px, 3.2vw, 38px);
+      line-height: 1.28;
       margin: 0 0 10px;
+    }
+    #overview .sh h2 {
+      font-size: clamp(24px, 2.85vw, 36px);
+      max-width: none;
+    }
+    #overview .sh h2 .keep {
+      white-space: nowrap;
     }
     .lead { color: var(--muted); max-width: 860px; margin: 0; }
 
@@ -402,8 +409,37 @@
     .tree-leaf span {
       display: block;
       margin-top: 6px;
-      font: 700 18px/1.3 "IBM Plex Mono", monospace;
+      font: 700 15px/1.45 "IBM Plex Mono", monospace;
       color: var(--text);
+    }
+    .xau-scope {
+      margin: 18px auto 8px;
+      max-width: 520px;
+      text-align: center;
+    }
+    .xau-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      font: 700 11px/1.3 "IBM Plex Mono", monospace;
+      color: var(--dodgers);
+      border: 1px solid #B8D0E4;
+      background: #F0F6FB;
+      padding: 6px 12px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.08em;
+    }
+    .xau-badge .jp {
+      color: var(--dodgers-deep);
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .xau-note {
+      margin: 8px 0 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
     }
 
     .state-cards {
@@ -768,12 +804,16 @@
         <div class="sh">
           <div class="no">G SCAL<i class="jp">Gスキャル</i><br>OVERVIEW<i class="jp">全体像</i></div>
           <div>
-            <h2>RoboMei Interpretation / RoboMei解釈版 の全体像。</h2>
+            <h2>RoboMei Interpretation / RoboMei解釈版 の<span class="keep">全体像。</span></h2>
             <p class="lead">G Scal は State Judge から始まる。基本的には、ほぼ STANDARD STATE。BIG STATE は、ほぼ重要指標がメイン。現在の相場を STANDARD STATE または BIG STATE として扱ったあと、Thrust Judge で Tradeable かどうかを見る。BIG STATE と STANDARD STATE は完全に別の Trading Logic ではない。</p>
           </div>
         </div>
         <div class="card tree" id="state">
           <div class="tree-node">STATE JUDGE<i class="jp">相場状態の判定</i></div>
+          <div class="xau-scope">
+            <span class="xau-badge">XAUUSD TARGET<i class="jp">XAUUSD特化</i></span>
+            <p class="xau-note">TP / LC specifications are for XAUUSD.<br>TP / LC仕様はXAUUSDに特化。</p>
+          </div>
           <div class="tree-stem"></div>
           <div class="tree-bar"></div>
           <div class="tree-fork">
@@ -781,7 +821,7 @@
               <div class="tree-stem"></div>
               <div class="tree-leaf">
                 <b>STANDARD STATE<i class="jp">通常相場</i></b>
-                <span>TP 35 / LC 60</span>
+                <span>Original: TP 30 / LC 60<br>RoboMei: TP 35 / LC 60</span>
               </div>
             </div>
             <div class="tree-col">
@@ -809,19 +849,21 @@
         <div class="state-cards">
           <div class="card state-card">
             <span class="badge">STANDARD STATE<i class="jp">通常相場</i></span>
+            <span class="badge" style="margin-left:6px">XAUUSD TARGET<i class="jp">XAUUSD特化</i></span>
             <div class="metrics">
               <div class="metric"><em>TP</em><strong>35</strong></div>
               <div class="metric"><em>LC</em><strong>60</strong></div>
             </div>
-            <p>元ロジック: TP 30 / LC 60<br>本サイト RoboMei: TP 35 / LC 60<br>TPのみ 35 へ変更。基本的には、ほぼ Standard State。</p>
+            <p>元ロジック: TP 30 / LC 60<br>本サイト RoboMei: TP 35 / LC 60<br>TPのみ 35 へ変更。基本的には、ほぼ Standard State。<br>TP / LC仕様はXAUUSDに特化。</p>
           </div>
           <div class="card state-card">
             <span class="badge">BIG STATE<i class="jp">大きく動く特殊相場</i></span>
+            <span class="badge" style="margin-left:6px">XAUUSD TARGET<i class="jp">XAUUSD特化</i></span>
             <div class="metrics">
               <div class="metric"><em>TP</em><strong>60</strong></div>
               <div class="metric"><em>LC</em><strong>100</strong></div>
             </div>
-            <p>ほぼ重要指標がメイン。現在公開する詳細 Logic。下の BIG STATE 本文へ続く。</p>
+            <p>ほぼ重要指標がメイン。現在公開する詳細 Logic。下の BIG STATE 本文へ続く。<br>TP / LC仕様はXAUUSDに特化。</p>
           </div>
         </div>
         <div class="card same-logic">
