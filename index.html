@@ -700,35 +700,54 @@
       inset: 0;
       z-index: 40;
       display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background: rgba(8, 18, 32, 0.86);
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
+      background: rgba(8, 18, 32, 0.9);
       overflow: hidden;
+      touch-action: none;
     }
     .lightbox.open { display: flex; }
-    .lightbox-stage {
-      position: relative;
+    .chart-viewport {
+      position: absolute;
+      inset: 0;
       z-index: 1;
-      max-width: min(96vw, 1800px);
-      max-height: 92vh;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
     }
-    .lightbox img#chartLightboxImage {
+    .chart-viewport.is-panning { cursor: grabbing; }
+    .chart-layer {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
+      will-change: transform;
+    }
+    .chart-layer img#chartLightboxImage {
       display: block;
-      max-width: min(96vw, 1800px);
-      max-height: 92vh;
+      max-width: min(95vw, 1800px);
+      max-height: 95vh;
       width: auto;
       height: auto;
       object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
       background: #111;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+    .annotation-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
     }
     .lightbox-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 3;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
       width: 40px;
       height: 40px;
       border: 1px solid rgba(255, 255, 255, 0.35);
@@ -738,6 +757,40 @@
       font-size: 24px;
       line-height: 1;
       cursor: pointer;
+    }
+    .zoom-controls {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      z-index: 5;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+    }
+    .zoom-controls button {
+      min-width: 42px;
+      height: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font: 700 12px/1 "IBM Plex Mono", monospace;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+    .zoom-controls button:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .zoom-controls [data-zoom-level] {
+      min-width: 58px;
+      pointer-events: none;
     }
     .explain-window {
       position: absolute;
@@ -1728,8 +1781,17 @@
   <a class="to-top" href="#top">↑ TOPへ戻る</a>
   <div class="lightbox" id="chartLightbox" aria-hidden="true">
     <button class="lightbox-close" type="button" aria-label="Close large view">&times;</button>
-    <div class="lightbox-stage">
-      <img id="chartLightboxImage" alt="REAL CHART large view">
+    <div class="chart-viewport" id="chartViewport">
+      <div class="chart-layer" id="chartLayer">
+        <img id="chartLightboxImage" alt="REAL CHART large view">
+      </div>
+      <div class="annotation-layer" aria-hidden="true"></div>
+    </div>
+    <div class="zoom-controls" aria-label="Chart zoom controls">
+      <button type="button" data-zoom-out aria-label="Zoom out">−</button>
+      <button type="button" data-zoom-level>100%</button>
+      <button type="button" data-zoom-in aria-label="Zoom in">＋</button>
+      <button type="button" data-zoom-reset aria-label="Reset zoom">RESET</button>
     </div>
     <aside
       class="explain-window"
@@ -1755,14 +1817,92 @@
   <script>
     (function () {
       const lightbox = document.getElementById("chartLightbox");
+      const viewport = document.getElementById("chartViewport");
+      const chartLayer = document.getElementById("chartLayer");
       const lightboxImage = document.getElementById("chartLightboxImage");
       const closeButton = lightbox.querySelector(".lightbox-close");
+      const zoomOutBtn = lightbox.querySelector("[data-zoom-out]");
+      const zoomInBtn = lightbox.querySelector("[data-zoom-in]");
+      const zoomResetBtn = lightbox.querySelector("[data-zoom-reset]");
+      const zoomLevelBtn = lightbox.querySelector("[data-zoom-level]");
       const explainWindow = document.getElementById("explainWindow");
       const explainReopen = document.getElementById("explainReopen");
       const explainHead = explainWindow.querySelector("[data-explain-drag]");
       const explainMin = explainWindow.querySelector("[data-explain-min]");
       const explainClose = explainWindow.querySelector("[data-explain-close]");
-      const dragState = { active: false, startX: 0, startY: 0, originLeft: 0, originTop: 0 };
+
+      const MIN_SCALE = 1;
+      const MAX_SCALE = 6;
+      const view = { scale: 1, x: 0, y: 0 };
+      const explainDrag = { active: false, startX: 0, startY: 0, originLeft: 0, originTop: 0 };
+      const pan = { active: false, pointerId: null, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const pointers = new Map();
+      let pinchStartDistance = 0;
+      let pinchStartScale = 1;
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function applyTransform() {
+        chartLayer.style.transform =
+          "translate(-50%, -50%) translate(" + view.x + "px, " + view.y + "px) scale(" + view.scale + ")";
+        zoomLevelBtn.textContent = Math.round(view.scale * 100) + "%";
+      }
+
+      function clampPan() {
+        if (view.scale <= 1.01) {
+          view.x = 0;
+          view.y = 0;
+          return;
+        }
+        const vw = viewport.clientWidth;
+        const vh = viewport.clientHeight;
+        const imgW = lightboxImage.offsetWidth || 1;
+        const imgH = lightboxImage.offsetHeight || 1;
+        const scaledW = imgW * view.scale;
+        const scaledH = imgH * view.scale;
+        const overflowX = Math.max(0, (scaledW - vw) / 2 + vw * 0.25);
+        const overflowY = Math.max(0, (scaledH - vh) / 2 + vh * 0.25);
+        view.x = clamp(view.x, -overflowX, overflowX);
+        view.y = clamp(view.y, -overflowY, overflowY);
+      }
+
+      function resetView() {
+        view.scale = 1;
+        view.x = 0;
+        view.y = 0;
+        applyTransform();
+      }
+
+      function zoomAt(nextScale, clientX, clientY) {
+        const prev = view.scale;
+        const scale = clamp(nextScale, MIN_SCALE, MAX_SCALE);
+        if (Math.abs(scale - prev) < 0.0001) return;
+        const rect = viewport.getBoundingClientRect();
+        const cx = clientX - rect.left - rect.width / 2;
+        const cy = clientY - rect.top - rect.height / 2;
+        const worldX = (cx - view.x) / prev;
+        const worldY = (cy - view.y) / prev;
+        view.scale = scale;
+        view.x = cx - worldX * scale;
+        view.y = cy - worldY * scale;
+        if (scale <= 1.01) {
+          view.scale = 1;
+          view.x = 0;
+          view.y = 0;
+        } else {
+          clampPan();
+        }
+        applyTransform();
+      }
+
+      function zoomBy(factor, clientX, clientY) {
+        const rect = viewport.getBoundingClientRect();
+        const x = clientX == null ? rect.left + rect.width / 2 : clientX;
+        const y = clientY == null ? rect.top + rect.height / 2 : clientY;
+        zoomAt(view.scale * factor, x, y);
+      }
 
       function resetExplainWindow() {
         explainWindow.classList.remove("is-closed", "is-minimized");
@@ -1778,9 +1918,12 @@
         lightboxImage.src = src;
         lightboxImage.alt = alt || "REAL CHART large view";
         resetExplainWindow();
+        resetView();
         lightbox.classList.add("open");
         lightbox.setAttribute("aria-hidden", "false");
         document.body.classList.add("lightbox-open");
+        pointers.clear();
+        pan.active = false;
       }
 
       function closeLightbox() {
@@ -1789,6 +1932,10 @@
         lightboxImage.removeAttribute("src");
         document.body.classList.remove("lightbox-open");
         resetExplainWindow();
+        resetView();
+        pointers.clear();
+        pan.active = false;
+        viewport.classList.remove("is-panning");
       }
 
       function closeExplainWindow() {
@@ -1807,15 +1954,15 @@
         explainMin.innerHTML = minimized ? "&#9633;" : "&#8211;";
       }
 
-      function onDragStart(event) {
+      function onExplainDragStart(event) {
         if (event.target.closest(".explain-controls")) return;
         const point = event.touches ? event.touches[0] : event;
         const rect = explainWindow.getBoundingClientRect();
-        dragState.active = true;
-        dragState.startX = point.clientX;
-        dragState.startY = point.clientY;
-        dragState.originLeft = rect.left;
-        dragState.originTop = rect.top;
+        explainDrag.active = true;
+        explainDrag.startX = point.clientX;
+        explainDrag.startY = point.clientY;
+        explainDrag.originLeft = rect.left;
+        explainDrag.originTop = rect.top;
         explainWindow.style.right = "auto";
         explainWindow.style.left = rect.left + "px";
         explainWindow.style.top = rect.top + "px";
@@ -1823,24 +1970,120 @@
           explainHead.setPointerCapture(event.pointerId);
         }
         event.preventDefault();
+        event.stopPropagation();
       }
 
-      function onDragMove(event) {
-        if (!dragState.active) return;
+      function onExplainDragMove(event) {
+        if (!explainDrag.active) return;
         const point = event.touches ? event.touches[0] : event;
-        const nextLeft = dragState.originLeft + (point.clientX - dragState.startX);
-        const nextTop = dragState.originTop + (point.clientY - dragState.startY);
+        const nextLeft = explainDrag.originLeft + (point.clientX - explainDrag.startX);
+        const nextTop = explainDrag.originTop + (point.clientY - explainDrag.startY);
         const maxLeft = Math.max(8, window.innerWidth - explainWindow.offsetWidth - 8);
         const maxTop = Math.max(8, window.innerHeight - explainWindow.offsetHeight - 8);
-        explainWindow.style.left = Math.min(Math.max(8, nextLeft), maxLeft) + "px";
-        explainWindow.style.top = Math.min(Math.max(8, nextTop), maxTop) + "px";
+        explainWindow.style.left = clamp(nextLeft, 8, maxLeft) + "px";
+        explainWindow.style.top = clamp(nextTop, 8, maxTop) + "px";
+        event.stopPropagation();
       }
 
-      function onDragEnd(event) {
-        if (!dragState.active) return;
-        dragState.active = false;
+      function onExplainDragEnd(event) {
+        if (!explainDrag.active) return;
+        explainDrag.active = false;
         if (event && event.pointerId != null && explainHead.hasPointerCapture && explainHead.hasPointerCapture(event.pointerId)) {
           explainHead.releasePointerCapture(event.pointerId);
+        }
+        event && event.stopPropagation();
+      }
+
+      function pointerDistance() {
+        const pts = Array.from(pointers.values());
+        if (pts.length < 2) return 0;
+        const dx = pts[0].x - pts[1].x;
+        const dy = pts[0].y - pts[1].y;
+        return Math.hypot(dx, dy);
+      }
+
+      function pointerCenter() {
+        const pts = Array.from(pointers.values());
+        if (pts.length < 2) return null;
+        return {
+          x: (pts[0].x + pts[1].x) / 2,
+          y: (pts[0].y + pts[1].y) / 2
+        };
+      }
+
+      let didPanOrPinch = false;
+
+      function onViewportPointerDown(event) {
+        if (event.target.closest(".explain-window, .explain-reopen, .zoom-controls, .lightbox-close")) return;
+        didPanOrPinch = false;
+        pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (pointers.size === 2) {
+          pan.active = false;
+          viewport.classList.remove("is-panning");
+          pinchStartDistance = pointerDistance();
+          pinchStartScale = view.scale;
+          didPanOrPinch = true;
+        } else if (pointers.size === 1) {
+          pan.active = true;
+          pan.pointerId = event.pointerId;
+          pan.startX = event.clientX;
+          pan.startY = event.clientY;
+          pan.originX = view.x;
+          pan.originY = view.y;
+          viewport.classList.add("is-panning");
+          viewport.setPointerCapture(event.pointerId);
+        }
+        event.preventDefault();
+      }
+
+      function onViewportPointerMove(event) {
+        if (!pointers.has(event.pointerId)) return;
+        pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (pointers.size >= 2) {
+          const distance = pointerDistance();
+          if (pinchStartDistance > 0) {
+            const center = pointerCenter();
+            const nextScale = pinchStartScale * (distance / pinchStartDistance);
+            zoomAt(nextScale, center.x, center.y);
+            didPanOrPinch = true;
+          }
+          event.preventDefault();
+          return;
+        }
+        if (pan.active && pan.pointerId === event.pointerId) {
+          const dx = event.clientX - pan.startX;
+          const dy = event.clientY - pan.startY;
+          if (Math.hypot(dx, dy) > 3) didPanOrPinch = true;
+          view.x = pan.originX + dx;
+          view.y = pan.originY + dy;
+          clampPan();
+          applyTransform();
+          event.preventDefault();
+        }
+      }
+
+      function onViewportPointerUp(event) {
+        pointers.delete(event.pointerId);
+        if (pointers.size < 2) {
+          pinchStartDistance = 0;
+        }
+        if (pan.pointerId === event.pointerId) {
+          pan.active = false;
+          pan.pointerId = null;
+          viewport.classList.remove("is-panning");
+          if (viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
+            viewport.releasePointerCapture(event.pointerId);
+          }
+        }
+        if (pointers.size === 1) {
+          const remaining = Array.from(pointers.entries())[0];
+          pan.active = true;
+          pan.pointerId = remaining[0];
+          pan.startX = remaining[1].x;
+          pan.startY = remaining[1].y;
+          pan.originX = view.x;
+          pan.originY = view.y;
+          viewport.classList.add("is-panning");
         }
       }
 
@@ -1851,12 +2094,51 @@
           openLightbox(trigger.getAttribute("href") || (img && img.src), img ? img.alt : "");
         });
       });
+
       closeButton.addEventListener("click", closeLightbox);
       lightbox.addEventListener("click", (event) => {
-        if (event.target === lightbox) closeLightbox();
+        if (didPanOrPinch) return;
+        if ((event.target === lightbox || event.target === viewport) && view.scale <= 1.01) {
+          closeLightbox();
+        }
       });
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+      });
+      ["gesturestart", "gesturechange", "gestureend"].forEach((name) => {
+        viewport.addEventListener(name, (event) => event.preventDefault());
+      });
+
+      viewport.addEventListener("wheel", (event) => {
+        if (!lightbox.classList.contains("open")) return;
+        event.preventDefault();
+        const factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
+        zoomBy(factor, event.clientX, event.clientY);
+      }, { passive: false });
+
+      viewport.addEventListener("pointerdown", onViewportPointerDown);
+      viewport.addEventListener("pointermove", onViewportPointerMove);
+      viewport.addEventListener("pointerup", onViewportPointerUp);
+      viewport.addEventListener("pointercancel", onViewportPointerUp);
+      viewport.addEventListener("pointerleave", (event) => {
+        if (pan.active && pan.pointerId === event.pointerId) onViewportPointerUp(event);
+      });
+
+      zoomInBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        zoomBy(1.2);
+      });
+      zoomOutBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        zoomBy(1 / 1.2);
+      });
+      zoomResetBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        resetView();
+      });
+      zoomLevelBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        resetView();
       });
 
       explainClose.addEventListener("click", (event) => {
@@ -1871,10 +2153,14 @@
         event.stopPropagation();
         reopenExplainWindow();
       });
-      explainHead.addEventListener("pointerdown", onDragStart);
-      explainHead.addEventListener("pointermove", onDragMove);
-      explainHead.addEventListener("pointerup", onDragEnd);
-      explainHead.addEventListener("pointercancel", onDragEnd);
+      explainHead.addEventListener("pointerdown", onExplainDragStart);
+      explainHead.addEventListener("pointermove", onExplainDragMove);
+      explainHead.addEventListener("pointerup", onExplainDragEnd);
+      explainHead.addEventListener("pointercancel", onExplainDragEnd);
+
+      lightboxImage.addEventListener("load", () => {
+        if (lightbox.classList.contains("open")) resetView();
+      });
     })();
   </script>
 </body>
