@@ -627,6 +627,30 @@
     }
     .credit-links a:hover { text-decoration: underline; }
 
+    .detail-link {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dodgers);
+      text-decoration: none;
+    }
+    .detail-link:hover { text-decoration: underline; }
+    .back-link {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dodgers);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+    #basic-logic,
+    #basic-logic-detail,
+    [id^="basic-detail-"] {
+      scroll-margin-top: 80px;
+    }
+
     @media (max-width: 900px) {
       .heroGrid, .case, .matrix, .tree-fork, .state-cards, .compare, .split-2, .setup-pair, .entry-grid, .skip-grid { grid-template-columns: 1fr; }
       .defs, .qs { grid-template-columns: 1fr; }
@@ -649,6 +673,7 @@
       <nav>
         <a href="#overview">Overview / 全体像</a>
         <a href="#basic-logic">BASIC LOGIC / 基本ロジック</a>
+        <a href="#basic-logic-detail">DETAIL / 詳細</a>
         <a href="#state">State / 状態</a>
         <a href="#thrust">Thrust / 強い値動き</a>
         <a href="#style">Style / スタイル</a>
@@ -807,36 +832,41 @@
           <div class="core-step">
             <em>01</em>
             <div>
-              <b>SMA20 Break</b>
-              <span>M1 SMA20をまたぐBreak後、下落せずThrust形成。ここからThrustを見る。</span>
+              <b>SMA20 BREAK</b>
+              <span>M1 SMA20 Break後、下落せずThrust形成。ここからThrustを見る。</span>
+              <a class="detail-link" href="#basic-detail-01">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
           <div class="core-step">
             <em>02</em>
             <div>
-              <b>環境の方向を見る</b>
-              <span>M1 SMA20、M5 SMA20、M15 SMA20 の方向を確認しておく。同調 ＝ Perfect Order。</span>
+              <b>DIRECTION</b>
+              <span>M1 / M5 / M15 SMA20の方向。同調 ＝ Perfect Order</span>
+              <a class="detail-link" href="#basic-detail-02">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
           <div class="core-step">
             <em>03</em>
             <div>
-              <b>Thrustを見る</b>
-              <span>Thrust中に、EMA6、EMA13、SMA20 が Perfect Order になっていることが多い。Thrustの長さを見るため、Trend元から AutoLineTool で +120pips 先に Line を引いておく。+120pips は、Thrustの長さ＝勢いを見るための視認目安。120pips到達だけで機械的にThrust認定とはしない。</span>
+              <b>THRUST</b>
+              <span>+120pipsは、Thrustの長さ＝勢いを見る視認目安。</span>
+              <a class="detail-link" href="#basic-detail-03">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
           <div class="core-step">
             <em>04</em>
             <div>
-              <b>M1で押し目が出る</b>
-              <span>Thrust中に、初のM1 ShortCandle、または M1前回高値を超えられない ShortCandle が形成される。ShortCandleが出たからそのままENTRYすることではない。M1で押し目が出た → この位置までのThrustの長さを見る → Thrustの勢いがあるのかを見る。逆に見れば、初のShortCandleが形成された時点で、そこまでの値動きを見て「Thrust」と認定できるならGO。</span>
+              <b>RETRACE</b>
+              <span>Thrust中にM1で押し目が出る。</span>
+              <a class="detail-link" href="#basic-detail-04">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
           <div class="core-step">
             <em>05</em>
             <div>
-              <b>RETRACE ENTRY</b>
-              <span>前足が進んだことで生じた乖離を埋めるために、ShortCandleを形成することが多い。そのM1の押し目を Retrace ENTRY としてENTRYする。</span>
+              <b>ENTRY</b>
+              <span>そのM1の押し目を Retrace ENTRY としてENTRYする。</span>
+              <a class="detail-link" href="#basic-detail-05">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
         </div>
@@ -854,8 +884,6 @@
         <div class="card pull" style="margin-top: 18px;">
           <strong>Thrustから勢いを獲る。</strong>
         </div>
-        <p class="observe">EMA13 Not Touch が繰り返されている場合、Thrustとしての確度が高くなる。絶対条件にはしない。</p>
-        <p class="observe">ShortCandle形成 = 自動ENTRY、ではない。120pips到達 = 自動Thrust認定、ではない。Perfect Order = ENTRY必須条件、ではない。EMA13 Not Touch = 必須条件、ではない。</p>
       </div>
     </section>
 
@@ -1252,6 +1280,77 @@
           <span>陰陽混在</span>
           <span>チキン利確</span>
         </div>
+      </div>
+    </section>
+
+    <section class="alt" id="basic-logic-detail">
+      <div class="w">
+        <div class="sh">
+          <div class="no">BASIC LOGIC DETAIL<i class="jp">基本ロジック詳細</i></div>
+          <div>
+            <h2>基本ロジック詳細</h2>
+            <p class="lead">上部は一覧。ここは各STEPの意味を理解するための詳細。</p>
+          </div>
+        </div>
+
+        <article class="card wait" id="basic-detail-01" style="margin-bottom: 14px;">
+          <span class="badge">DETAIL 01</span>
+          <strong>SMA20 BREAK</strong>
+          <p class="lead">M1 SMA20をまたぐBreak後、下落せずThrust形成。ここからThrustを見る。</p>
+          <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+        </article>
+
+        <article class="card wait" id="basic-detail-02" style="margin-bottom: 14px;">
+          <span class="badge">DETAIL 02</span>
+          <strong>DIRECTION</strong>
+          <p class="lead">以下の方向を確認しておく。</p>
+          <p class="lead">M1 SMA20 / M5 SMA20 / M15 SMA20</p>
+          <p class="lead">同調 ＝ Perfect Order</p>
+          <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+        </article>
+
+        <article class="card wait" id="basic-detail-03" style="margin-bottom: 14px;">
+          <span class="badge">DETAIL 03</span>
+          <strong>THRUST</strong>
+          <p class="lead">Thrust中に、EMA6、EMA13、SMA20 が Perfect Order になっていることが多い。</p>
+          <p class="lead">Thrustの長さ＝勢いを見るため、Trend元から AutoLineTool で +120pips 先に Line を引いておく。</p>
+          <p class="lead">120pipsは、機械的なThrust認定条件ではない。Thrustの長さ＝勢いを視認するための目安。</p>
+          <p class="lead">また、EMA13 Not Touch が繰り返されている場合、Thrustとしての確度が高くなる。</p>
+          <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+        </article>
+
+        <article class="card wait" id="basic-detail-04" style="margin-bottom: 14px;">
+          <span class="badge">DETAIL 04</span>
+          <strong>RETRACE</strong>
+          <p class="lead">Thrust中にM1で押し目が出る。</p>
+          <p class="lead">確認する形: 初のM1 ShortCandle、または M1前回高値を超えられない ShortCandle。</p>
+          <p class="lead">ShortCandleは、前足が進んで生じた乖離を埋めるために形成することが多い。</p>
+          <div class="card placeholder" style="margin-top: 14px;">
+            <b>REAL CHART準備中</b>
+            <p class="lead">今後 FXDB から選定する ENTRY 実チャート画像を追加できる。今回は画像を追加しない。</p>
+          </div>
+          <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+        </article>
+
+        <article class="card wait" id="basic-detail-05">
+          <span class="badge">DETAIL 05</span>
+          <strong>RETRACE ENTRY</strong>
+          <p class="lead">ここがENTRY判断。</p>
+          <div class="vflow" style="margin-top: 8px;">
+            <div class="item"><em>→</em><div><b>M1で押し目が出た</b></div></div>
+            <div class="item"><em>→</em><div><b>その「位置」を見る</b></div></div>
+            <div class="item"><em>→</em><div><b>そこまでのThrustの長さを見る</b></div></div>
+            <div class="item"><em>→</em><div><b>Thrustの勢いがあるのかを見る</b></div></div>
+            <div class="item"><em>→</em><div><b>Thrustと認定</b></div></div>
+            <div class="item"><em>→</em><div><b>Retrace ENTRY</b></div></div>
+          </div>
+          <p class="observe">ShortCandleが出たから機械的にENTRYするのではない。押し目が形成された位置で、それまでの Thrustの長さ＝勢い を確認する。逆に見れば、初のShortCandleが形成された時点で、そこまでの値動きを見て「Thrust」と思ったならGO。</p>
+          <div class="card placeholder" style="margin-top: 14px;">
+            <b>REAL CHART準備中</b>
+            <p class="lead">今後 FXDB から選定する ENTRY 実チャート画像を追加できる。今回は画像を追加しない。</p>
+          </div>
+          <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+        </article>
       </div>
     </section>
   </main>
