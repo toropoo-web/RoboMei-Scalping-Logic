@@ -486,6 +486,34 @@
     .core-step b { display: block; }
     .core-step span { color: var(--muted); font-size: 13px; }
 
+    .env-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .env-table th,
+    .env-table td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .env-table th {
+      background: #F0F6FB;
+      color: var(--dodgers);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .env-table td:first-child {
+      font-weight: 700;
+      white-space: nowrap;
+      width: 38%;
+    }
+    @media (max-width: 520px) {
+      .env-table td:first-child { white-space: normal; }
+    }
+
     .split-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -870,8 +898,8 @@
           <div class="core-step">
             <em>02</em>
             <div>
-              <b>DIRECTION</b>
-              <span>M1 / M5 / M15 SMA20の方向。同調 ＝ Perfect Order</span>
+              <b>ENVIRONMENT / 環境認識</b>
+              <span>Direction + Formation + Resistance &amp; Support</span>
               <a class="detail-link" href="#basic-detail-02">DETAIL / 詳細を見る ↓</a>
             </div>
           </div>
@@ -901,13 +929,35 @@
           </div>
         </div>
 
-        <div class="card" style="padding: 8px 22px 16px; margin-top: 18px;">
-          <div class="vflow">
+        <div class="card" style="padding: 18px 22px 16px; margin-top: 18px;">
+          <b style="display:block;margin-bottom:10px;color:var(--dodgers);font-size:13px;letter-spacing:0.04em;">ENVIRONMENT RECOGNITION / 環境認識</b>
+          <p class="lead" style="margin-bottom:12px;">ENTRYを探す前に、上位の状況を確認しておく。方向だけではない。</p>
+          <table class="env-table">
+            <thead>
+              <tr>
+                <th>CHECK</th>
+                <th>確認内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DIRECTION / 方向</td>
+                <td>M1・M5・M15 SMA20の方向 / Perfect Order</td>
+              </tr>
+              <tr>
+                <td>FORMATION</td>
+                <td>上位で形成されているFormation</td>
+              </tr>
+              <tr>
+                <td>RESISTANCE &amp; SUPPORT</td>
+                <td>上位のResistance / Supportの位置</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="vflow" style="margin-top: 14px;">
+            <div class="item"><em>→</em><div><b>上位の状況を確認</b></div></div>
             <div class="item"><em>→</em><div><b>Thrust形成</b></div></div>
-            <div class="item"><em>→</em><div><b>M1で押し目が出る</b></div></div>
-            <div class="item"><em>→</em><div><b>その位置までの長さと勢いを見る</b></div></div>
-            <div class="item"><em>→</em><div><b>Thrust認定</b></div></div>
-            <div class="item"><em>→</em><div><b>Retrace ENTRY</b></div></div>
+            <div class="item"><em>→</em><div><b>M1 Retraceを探す</b></div></div>
           </div>
         </div>
         <div class="card pull" style="margin-top: 18px;">
@@ -1331,10 +1381,36 @@
 
         <article class="card wait" id="basic-detail-02" style="margin-bottom: 14px;">
           <span class="badge">DETAIL 02</span>
-          <strong>DIRECTION</strong>
-          <p class="lead">以下の方向を確認しておく。</p>
-          <p class="lead">M1 SMA20 / M5 SMA20 / M15 SMA20</p>
-          <p class="lead">同調 ＝ Perfect Order</p>
+          <strong>ENVIRONMENT RECOGNITION / 環境認識</strong>
+          <p class="lead">ENTRYを探す前に、上位の状況を確認しておく。方向だけではなく、Formation、Resistance、Support を含めて確認する。</p>
+          <table class="env-table" style="margin-top: 12px;">
+            <thead>
+              <tr>
+                <th>CHECK</th>
+                <th>確認内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01｜DIRECTION / 方向</td>
+                <td>M1 SMA20 / M5 SMA20 / M15 SMA20。各時間軸の方向を確認。同調 ＝ Perfect Order</td>
+              </tr>
+              <tr>
+                <td>02｜FORMATION / Formation</td>
+                <td>上位で形成されている Formation を確認しておく。</td>
+              </tr>
+              <tr>
+                <td>03｜RESISTANCE &amp; SUPPORT</td>
+                <td>上位の Resistance / Support の位置を確認しておく。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="vflow" style="margin-top: 14px;">
+            <div class="item"><em>→</em><div><b>上位の状況を確認</b></div></div>
+            <div class="item"><em>→</em><div><b>Thrust形成</b></div></div>
+            <div class="item"><em>→</em><div><b>M1 Retraceを探す</b></div></div>
+          </div>
+          <p class="observe">Formationの種類、Resistance / Support の具体的な判定条件は、今回は新しく定義しない。</p>
           <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
         </article>
 
