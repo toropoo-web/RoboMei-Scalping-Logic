@@ -488,6 +488,79 @@
     }
     .chapter-head { margin-bottom: 8px; }
 
+    .en-label {
+      display: inline-block;
+      font: 600 10px/1 "IBM Plex Mono", monospace;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .pull {
+      padding: 28px 24px;
+      border-left: 4px solid var(--dodgers);
+    }
+    .pull strong {
+      display: block;
+      font-size: clamp(22px, 3vw, 32px);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .vflow {
+      display: grid;
+      gap: 0;
+    }
+    .vflow .item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 0;
+    }
+    .vflow .item + .item {
+      border-top: 1px dashed var(--line);
+    }
+    .vflow em {
+      font-style: normal;
+      color: var(--dodgers);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .entry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .entry-grid .card { padding: 22px; }
+    .entry-grid h3 { font-size: 20px; margin: 8px 0 10px; }
+    .skip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .skip-grid .card { padding: 22px; }
+    .placeholder {
+      padding: 28px 22px;
+      text-align: center;
+      border-style: dashed;
+    }
+    .placeholder b { display: block; color: var(--dodgers); margin-bottom: 8px; }
+    .future-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .future-tags span {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 99px;
+    }
+
     footer {
       border-top: 3px solid var(--dodgers);
       background: #F7FBFF;
@@ -519,7 +592,7 @@
     .credit-links a:hover { text-decoration: underline; }
 
     @media (max-width: 900px) {
-      .heroGrid, .case, .matrix, .tree-fork, .state-cards, .compare, .split-2, .setup-pair { grid-template-columns: 1fr; }
+      .heroGrid, .case, .matrix, .tree-fork, .state-cards, .compare, .split-2, .setup-pair, .entry-grid, .skip-grid { grid-template-columns: 1fr; }
       .defs, .qs { grid-template-columns: 1fr; }
       .cycle, .decision { grid-template-columns: 1fr 1fr; }
       .sh { grid-template-columns: 1fr; }
@@ -543,6 +616,7 @@
         <a href="#thrust">Thrust</a>
         <a href="#style">Style</a>
         <a href="#big-state">Big State</a>
+        <a href="#practical">実戦ENTRY</a>
       </nav>
     </div>
   </header>
@@ -911,6 +985,173 @@
         <div class="card final">
           <strong>最終的に覚えるのは「3つだけ」。</strong>
           <p class="lead">Thrustの方向を決める。現在地を決める。ShortCandleとMAの位置関係から、次のThrustが始まり得るENTRY Pointを策定する。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="practical">
+      <div class="w">
+        <div class="sh">
+          <div class="no">PRACTICAL ENTRY</div>
+          <div>
+            <h2>XAUUSD M1 Thrust<br>実戦ENTRY判断</h2>
+            <p class="lead">環境認識 → ENTRY → 見送り → 再ENTRY</p>
+          </div>
+        </div>
+
+        <div class="sh" style="margin-top: 8px;">
+          <div class="no">01</div>
+          <div>
+            <h2>Thrustを認識する<span class="en-label">THRUST</span></h2>
+            <p class="lead">M1 SMA20 Break を Thrust 計測開始の目安とする。起点から 120 pips Over を基本目安とする。ただし、120 pips を厳密な固定値とはしない。120 pips 近辺でも、EMA13 Not Touch が継続していれば Thrust が形成されている場合がある。</p>
+          </div>
+        </div>
+        <div class="card" style="padding: 8px 22px 16px;">
+          <div class="vflow">
+            <div class="item"><em>01</em><div><b>M1 SMA20 Break</b><span class="lead">起点 / Thrust計測開始の目安</span></div></div>
+            <div class="item"><em>02</em><div><b>EMA13 Not Touch</b><span class="lead">継続を見る</span></div></div>
+            <div class="item"><em>03</em><div><b>約120 pips以上</b><span class="lead">基本目安。厳密な固定値ではない</span></div></div>
+            <div class="item"><em>04</em><div><b>THRUST環境</b><span class="lead">120 pips は ENTRY 地点ではない</span></div></div>
+          </div>
+        </div>
+        <p class="observe">120 pips 到達 = 自動ENTRY、ではない。</p>
+
+        <div class="card pull" style="margin-top: 22px;">
+          <strong>追いかけない。<br>なるべくEMA側へ引き付けてENTRYする。</strong>
+          <p class="lead">Thrustが120pips近辺まで伸びた後、そのまま価格を追いかけるのではなく、なるべくEMA側へ価格を引き付けてENTRYを詰める。</p>
+        </div>
+
+        <div class="entry-grid" style="margin-top: 22px;">
+          <div class="card">
+            <span class="badge">ENTRY 1</span>
+            <h3>M1 Short Candle</h3>
+            <div class="vflow">
+              <div class="item"><em>→</em><div><b>Thrust</b></div></div>
+              <div class="item"><em>→</em><div><b>EMA付近まで戻る</b></div></div>
+              <div class="item"><em>→</em><div><b>M1 Short Candle形成</b></div></div>
+              <div class="item"><em>→</em><div><b>Candle確定</b></div></div>
+              <div class="item"><em>→</em><div><b>ENTRY</b></div></div>
+            </div>
+            <p class="lead" style="margin-top:12px">Thrust後、EMA付近まで戻り、M1 Short Candle形成、Candle確定を確認してENTRY。</p>
+          </div>
+          <div class="card">
+            <span class="badge">ENTRY 1.2</span>
+            <h3>EMA13 Touch</h3>
+            <p class="lead">条件が良い場合は、EMA13 Touch その瞬間をENTRYとして扱う。</p>
+            <p class="observe" style="margin-top:14px">EMA13 Touchなら必ずENTRY、ではない。</p>
+          </div>
+          <div class="card">
+            <span class="badge">ENTRY 2</span>
+            <h3>EMAとの乖離が大きい場合</h3>
+            <p class="lead" style="margin-bottom:12px"><b>乖離しているなら追わない。</b></p>
+            <div class="vflow">
+              <div class="item"><em>→</em><div><b>価格とEMAの乖離が大きい</b></div></div>
+              <div class="item"><em>→</em><div><b>Candleを1本待つ</b></div></div>
+              <div class="item"><em>→</em><div><b>M1 Candle確定</b></div></div>
+              <div class="item"><em>→</em><div><b>ENTRY判断</b></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="w">
+        <div class="sh">
+          <div class="no">02</div>
+          <div>
+            <h2>見送りを検討する<span class="en-label">SKIP</span></h2>
+            <p class="lead">ENTRY条件だけを見て機械的にENTRYしない。</p>
+          </div>
+        </div>
+        <div class="skip-grid">
+          <div class="card">
+            <span class="badge">A</span>
+            <h3>クモ</h3>
+            <p class="lead">ENTRY方向の近距離にクモがある。特に、ENTRY後すぐクモへ衝突する位置関係では見送り候補。</p>
+          </div>
+          <div class="card">
+            <span class="badge">B</span>
+            <h3>D1 Line</h3>
+            <p class="lead">ENTRY方向のすぐ近くに D1 Line がある場合、D1 Lineまでの距離を確認して見送りを検討。</p>
+          </div>
+          <div class="card">
+            <span class="badge">C</span>
+            <h3>Trend累計値幅</h3>
+            <p class="lead">Trend開始地点から累計 約500 pips まで進むと、Trendが終了するケースが多い。Trend Start → Current Price を確認する。500pips近辺では新規ENTRYを慎重に判断する。</p>
+            <p class="observe" style="margin-top:14px">500pips = 強制終了、ではない。</p>
+          </div>
+          <div class="card">
+            <span class="badge">CANDLE</span>
+            <h3>Candleの進み方も見る</h3>
+            <p class="lead">M1 Candleが一方向へ素直に連続せず、上昇Candleと下降Candleが混在し、一気にENTRY方向へ進まない状態では見送りを検討する。陰陽混在。</p>
+            <p class="observe" style="margin-top:14px">陰陽混在 = ENTRY禁止、ではない。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="w">
+        <div class="sh">
+          <div class="no">03</div>
+          <div>
+            <h2>一度見送っても、ENTRYできる場合がある。<span class="en-label">RE-ENTRY</span></h2>
+            <p class="lead">ENTRY方向に、サポレジ / 上位足MA が存在する場合、一旦は見送り候補。</p>
+          </div>
+        </div>
+        <div class="card" style="padding: 8px 22px 16px;">
+          <div class="vflow">
+            <div class="item"><em>01</em><div><b>そのLevelを抜ける</b></div></div>
+            <div class="item"><em>02</em><div><b>戻る</b></div></div>
+            <div class="item"><em>03</em><div><b>M1 Candleで再びENTRY方向へ動く</b></div></div>
+            <div class="item"><em>04</em><div><b>ENTRY候補</b></div></div>
+          </div>
+        </div>
+        <div class="card pull" style="margin-top: 18px;">
+          <strong>見送り ≠ そのTrendの終了</strong>
+          <p class="lead">その形になれば、ENTRYできる場合がある。</p>
+        </div>
+        <div class="card placeholder" style="margin-top: 18px;">
+          <b>REAL CASE準備中</b>
+          <p class="lead">参考画像 2026-08-27_14h44_23.png は、現時点では Repository に未配置。将来 FXDB から実例を追加する。</p>
+        </div>
+        <div class="card wait" style="margin-top: 18px;">
+          <strong>まだ機械判定にはしない。</strong>
+          <p class="lead">現時点では、以下を自動判定条件として固定しない。</p>
+          <ul class="lead" style="margin: 10px 0 12px; padding-left: 20px;">
+            <li>120pips近辺</li>
+            <li>なるべくEMAへ引き付ける</li>
+            <li>EMAとの乖離感</li>
+            <li>クモ / D1 Lineまでの距離</li>
+            <li>Trend累計500pips近辺</li>
+            <li>Candleの陰陽混在</li>
+          </ul>
+          <p class="lead">これらは、実トレードとFXDBの事例を蓄積しながら、境界を確認していく対象。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="real-cases">
+      <div class="w">
+        <div class="sh">
+          <div class="no">REAL CASES</div>
+          <div>
+            <h2>FXDB実例<span class="en-label">準備中</span></h2>
+            <p class="lead">将来、FXDBから実例を追加する枠組み。今回は掲載しない。</p>
+          </div>
+        </div>
+        <div class="future-tags">
+          <span>Thrust認定例</span>
+          <span>EMAへ引き付けたENTRY</span>
+          <span>EMA13 Touch ENTRY</span>
+          <span>乖離でWAIT</span>
+          <span>クモで見送り</span>
+          <span>D1 Lineで見送り</span>
+          <span>500pips近辺</span>
+          <span>見送り後の再ENTRY</span>
+          <span>陰陽混在</span>
+          <span>チキン利確</span>
         </div>
       </div>
     </section>
