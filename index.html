@@ -648,6 +648,7 @@
       <div class="brand"><span>G Scal</span> · RoboMei</div>
       <nav>
         <a href="#overview">Overview / 全体像</a>
+        <a href="#basic-logic">BASIC LOGIC / 基本ロジック</a>
         <a href="#state">State / 状態</a>
         <a href="#thrust">Thrust / 強い値動き</a>
         <a href="#style">Style / スタイル</a>
@@ -661,12 +662,11 @@
     <section class="hero">
       <div class="w heroGrid">
         <div>
-          <span class="kicker">G SCAL / Gスキャル<br>PUBLIC PREVIEW / 公開版</span>
+          <span class="kicker">PUBLIC PREVIEW / 公開版</span>
           <div class="product">RoboMei Interpretation / RoboMei解釈版</div>
-          <h1>G<br>SCAL<i class="jp">Gスキャル</i></h1>
-          <p class="sub">THRUSTを認定する。<br>トレンドの一部を獲得する。</p>
-          <p class="intro">G Scal は、形成されたトレンドの天井から底まで全てを取り切ることを目的としません。State Judge のあと Thrust を認定し、Tradeable になってから ENTRY を構築します。現在公開する詳細 Logic は <strong>BIG STATE</strong> です。</p>
-          <p class="intro" style="margin-top:12px"><strong>大きな値動きを追わない。次のENTRY Pointが形成されるまで待つ。</strong></p>
+          <h1>Scalping</h1>
+          <p class="sub">Thrustから勢いを獲る。</p>
+          <p class="intro">G Scal は、形成されたトレンドの天井から底まで全てを取り切ることを目的としません。State Judge のあと Thrust を認定し、Tradeable になってから ENTRY を構築します。基本的には、ほぼ STANDARD STATE。BIG STATE は、ほぼ重要指標がメインです。</p>
           <div class="flowline" aria-label="G Scal structure">
             <b>STANDARD STATE<i class="jp">通常相場</i></b><span>/</span>
             <b>BIG STATE<i class="jp">大きく動く特殊相場</i></b>
@@ -686,7 +686,7 @@
           <div class="no">G SCAL<i class="jp">Gスキャル</i><br>OVERVIEW<i class="jp">全体像</i></div>
           <div>
             <h2>RoboMei Interpretation / RoboMei解釈版 の全体像。</h2>
-            <p class="lead">G Scal は State Judge から始まる。現在の相場を STANDARD STATE または BIG STATE として扱ったあと、Thrust Judge で Tradeable かどうかを見る。BIG STATE と STANDARD STATE は完全に別の Trading Logic ではない。今回詳細を公開するのは BIG STATE。STANDARD STATE の詳細 Logic は今回創作しない。</p>
+            <p class="lead">G Scal は State Judge から始まる。基本的には、ほぼ STANDARD STATE。BIG STATE は、ほぼ重要指標がメイン。現在の相場を STANDARD STATE または BIG STATE として扱ったあと、Thrust Judge で Tradeable かどうかを見る。BIG STATE と STANDARD STATE は完全に別の Trading Logic ではない。</p>
           </div>
         </div>
         <div class="card tree" id="state">
@@ -720,7 +720,7 @@
           <div class="no">STATE<i class="jp">相場状態</i></div>
           <div>
             <h2>State によって切り替えるのは TP / LC。</h2>
-            <p class="lead">共通する基本思想は同じ。State Judge → Thrust認定 → Tradeable → 乖離 → 乖離埋め → Granville Chance → ENTRY → トレンドの一部を獲得。切り替えるのは TP / LC の設定。</p>
+            <p class="lead">共通する基本思想は同じ。State Judge → Thrust認定 → Tradeable → 乖離 → 乖離埋め → Granville Chance → ENTRY。切り替えるのは TP / LC の設定。基本的には、ほぼ Standard State。Big State は、ほぼ重要指標がメイン。</p>
           </div>
         </div>
         <div class="state-cards">
@@ -730,7 +730,7 @@
               <div class="metric"><em>TP</em><strong>35</strong></div>
               <div class="metric"><em>LC</em><strong>60</strong></div>
             </div>
-            <p>大半の State。今回、詳細 Logic は公開しない。</p>
+            <p>元ロジック: TP 30 / LC 60<br>本サイト RoboMei: TP 35 / LC 60<br>TPのみ 35 へ変更。基本的には、ほぼ Standard State。</p>
           </div>
           <div class="card state-card">
             <span class="badge">BIG STATE<i class="jp">大きく動く特殊相場</i></span>
@@ -738,7 +738,7 @@
               <div class="metric"><em>TP</em><strong>60</strong></div>
               <div class="metric"><em>LC</em><strong>100</strong></div>
             </div>
-            <p>現在公開する詳細 Logic。下の BIG STATE 本文へ続く。</p>
+            <p>ほぼ重要指標がメイン。現在公開する詳細 Logic。下の BIG STATE 本文へ続く。</p>
           </div>
         </div>
         <div class="card same-logic">
@@ -793,21 +793,84 @@
       </div>
     </section>
 
-    <section class="alt" id="core-gscal">
+    <section class="alt" id="basic-logic">
       <div class="w">
         <div class="sh">
-          <div class="no">CORE<i class="jp">基本ロジック</i></div>
+          <div class="no">BASIC LOGIC<i class="jp">基本ロジック</i></div>
           <div>
-            <h2>G Scal が狙うのは、トレンドの一部。</h2>
-            <p class="lead">THRUSTを認定する。トレンドの一部を獲得する。天井から底まで取り切ることが目的ではない。</p>
+            <h2>基本ロジック</h2>
+            <p class="lead">Thrustから勢いを獲る。環境認識を含めた STEP 01〜05。</p>
           </div>
         </div>
+
         <div class="card core-steps">
-          <div class="core-step"><em>01</em><div><b>STATE JUDGE<i class="jp">相場状態の判定</i></b><span>STANDARD STATE または BIG STATE として扱う。</span></div></div>
-          <div class="core-step"><em>02</em><div><b>THRUST JUDGE<i class="jp">Thrust認定</i></b><span>Tradeable かどうかを認定する。</span></div></div>
-          <div class="core-step"><em>03</em><div><b>TRADEABLE<i class="jp">トレード可能</i></b><span>Thrust 認定後に、乖離 → 乖離埋め → Granville Chance を見る。</span></div></div>
-          <div class="core-step"><em>04</em><div><b>ENTRY<i class="jp">エントリー</i></b><span>次の ENTRY Point が形成されるまで待つ。</span></div></div>
-          <div class="core-step"><em>05</em><div><b>PARTIAL CAPTURE<i class="jp">トレンドの一部を獲得</i></b><span>形成されたトレンドの一部を獲得する。</span></div></div>
+          <div class="core-step">
+            <em>01</em>
+            <div>
+              <b>SMA20 Break</b>
+              <span>M1 SMA20をまたぐBreak後、下落せずThrust形成。ここからThrustを見る。</span>
+            </div>
+          </div>
+          <div class="core-step">
+            <em>02</em>
+            <div>
+              <b>環境の方向を見る</b>
+              <span>M1 SMA20、M5 SMA20、M15 SMA20 の方向を確認しておく。同調 ＝ Perfect Order。</span>
+            </div>
+          </div>
+          <div class="core-step">
+            <em>03</em>
+            <div>
+              <b>Thrustを見る</b>
+              <span>Thrust中に、EMA6、EMA13、SMA20 が Perfect Order になっていることが多い。Thrustの長さを見るため、Trend元から AutoLineTool で +120pips 先に Line を引いておく。+120pips は、Thrustの長さ＝勢いを見るための視認目安。120pips到達だけで機械的にThrust認定とはしない。</span>
+            </div>
+          </div>
+          <div class="core-step">
+            <em>04</em>
+            <div>
+              <b>M1で押し目が出る</b>
+              <span>Thrust中に、初のM1 ShortCandle、または M1前回高値を超えられない ShortCandle が形成される。ShortCandleが出たからそのままENTRYすることではない。M1で押し目が出た → この位置までのThrustの長さを見る → Thrustの勢いがあるのかを見る。逆に見れば、初のShortCandleが形成された時点で、そこまでの値動きを見て「Thrust」と認定できるならGO。</span>
+            </div>
+          </div>
+          <div class="core-step">
+            <em>05</em>
+            <div>
+              <b>RETRACE ENTRY</b>
+              <span>前足が進んだことで生じた乖離を埋めるために、ShortCandleを形成することが多い。そのM1の押し目を Retrace ENTRY としてENTRYする。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 8px 22px 16px; margin-top: 18px;">
+          <div class="vflow">
+            <div class="item"><em>→</em><div><b>Thrust形成</b></div></div>
+            <div class="item"><em>→</em><div><b>M1で押し目が出る</b></div></div>
+            <div class="item"><em>→</em><div><b>その位置までのThrustの長さを見る</b></div></div>
+            <div class="item"><em>→</em><div><b>Thrustの勢いがあるのかを見る</b></div></div>
+            <div class="item"><em>→</em><div><b>Thrust認定</b></div></div>
+            <div class="item"><em>→</em><div><b>Retrace ENTRY</b></div></div>
+          </div>
+        </div>
+        <div class="card pull" style="margin-top: 18px;">
+          <strong>Thrustから勢いを獲る。</strong>
+        </div>
+        <p class="observe">EMA13 Not Touch が繰り返されている場合、Thrustとしての確度が高くなる。絶対条件にはしない。</p>
+        <p class="observe">ShortCandle形成 = 自動ENTRY、ではない。120pips到達 = 自動Thrust認定、ではない。Perfect Order = ENTRY必須条件、ではない。EMA13 Not Touch = 必須条件、ではない。</p>
+      </div>
+    </section>
+
+    <section id="real-chart">
+      <div class="w">
+        <div class="sh">
+          <div class="no">REAL CHART<i class="jp">実チャートで学ぶ</i></div>
+          <div>
+            <h2>実チャートで学ぶ</h2>
+            <p class="lead">このロジックは、実チャートでの視認を身につけてもらうことを重視する。今後、ENTRY集の実チャート画像を掲載し、SMA20 Break、Thrust、Perfect Order、Thrustの長さ、M1の押し目、ShortCandle、Retrace ENTRY を実例から確認できる構成にする。</p>
+          </div>
+        </div>
+        <div class="card placeholder">
+          <b>REAL CHART準備中</b>
+          <p class="lead">現時点では、Repository に存在しない画像は使用しない。</p>
         </div>
       </div>
     </section>
@@ -819,7 +882,7 @@
             <span class="badge">ROBO MEI STYLE<i class="jp">RoboMeiのトレードスタイル</i></span>
             <b>得意技：チキン利確</b>
             <p class="quote">「また利確したあと走った……」</p>
-            <p class="lead">それでもいい。これは RoboMei 自身の Trading Style。チキン利確が正しい、という一般論ではない。G Scal はトレンド全部を取り切ることを目的にしない。Thrust 認定後、形成されたトレンドの一部を獲得する。</p>
+            <p class="lead">それでもいい。これは RoboMei 自身の Trading Style。チキン利確が正しい、という一般論ではない。G Scal はトレンド全部を取り切ることを目的にしない。Thrustから勢いを獲る。</p>
           </div>
           <div class="card" id="setup">
             <span class="badge">ROBO MEI TRADING SETUP<i class="jp">RoboMeiのトレード環境</i></span>
