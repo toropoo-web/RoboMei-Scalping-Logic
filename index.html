@@ -94,9 +94,16 @@
     h1 {
       font-size: clamp(52px, 7vw, 84px);
       line-height: 0.92;
-      margin: 0 0 18px;
+      margin: 0 0 8px;
       letter-spacing: -0.04em;
       color: var(--text);
+    }
+    h1 .jp {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-top: 10px;
+      color: var(--dodgers);
     }
     .sub {
       font-size: clamp(20px, 2.6vw, 28px);
@@ -123,9 +130,19 @@
     .flowline b {
       color: #fff;
       background: var(--dodgers);
-      padding: 6px 10px;
+      padding: 6px 10px 7px;
       border-radius: 4px;
       font-weight: 600;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .flowline b .jp {
+      color: #E6F1F8;
+      font-size: 10px;
+      margin-top: 2px;
     }
     .flowline span {
       color: var(--dodgers);
@@ -165,7 +182,7 @@
 
     .sh {
       display: grid;
-      grid-template-columns: 108px 1fr;
+      grid-template-columns: 132px 1fr;
       gap: 20px;
       margin-bottom: 28px;
     }
@@ -175,6 +192,18 @@
       padding-top: 8px;
       letter-spacing: 0.08em;
     }
+    .jp {
+      display: block;
+      font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 3px;
+    }
+    .no .jp { font-size: 11px; letter-spacing: 0.02em; }
     h2 {
       font-size: clamp(26px, 3.4vw, 40px);
       line-height: 1.25;
@@ -305,28 +334,32 @@
     .final { padding: 26px; border-left: 3px solid var(--dodgers); }
     .badge {
       display: inline-block;
-      font: 700 11px/1 "IBM Plex Mono", monospace;
+      font: 700 11px/1.3 "IBM Plex Mono", monospace;
       color: var(--dodgers);
       border: 1px solid #B8D0E4;
-      padding: 4px 8px;
+      padding: 4px 8px 6px;
       border-radius: 4px;
       margin-bottom: 10px;
       letter-spacing: 0.06em;
     }
+    .badge .jp { color: var(--muted); font-size: 11px; }
 
     .tree {
       text-align: center;
       padding: 28px 20px 24px;
     }
     .tree-node {
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
       background: var(--dodgers);
       color: #fff;
-      font: 700 13px/1 "IBM Plex Mono", monospace;
+      font: 700 13px/1.3 "IBM Plex Mono", monospace;
       letter-spacing: 0.08em;
       padding: 12px 22px;
       border-radius: 8px;
     }
+    .tree-node .jp { color: #D6E8F5; }
     .tree-stem {
       width: 1px;
       height: 22px;
@@ -420,7 +453,10 @@
       gap: 14px;
     }
     .compare .card { padding: 24px; }
-    .compare h3 { margin: 8px 0 12px; font-size: 20px; }
+    .compare h3 .jp { font-size: 13px; }
+    .q .n { display: inline-block; }
+    .q .n .jp { display: inline; margin-left: 6px; margin-top: 0; }
+    .kicker { text-align: center; line-height: 1.55; }
     .compare dl { margin: 0; }
     .compare dt {
       font: 700 11px/1 "IBM Plex Mono", monospace;
@@ -611,12 +647,12 @@
     <div class="w nav">
       <div class="brand"><span>G Scal</span> · RoboMei</div>
       <nav>
-        <a href="#overview">Overview</a>
-        <a href="#state">State</a>
-        <a href="#thrust">Thrust</a>
-        <a href="#style">Style</a>
-        <a href="#big-state">Big State</a>
-        <a href="#practical">実戦ENTRY</a>
+        <a href="#overview">Overview / 全体像</a>
+        <a href="#state">State / 状態</a>
+        <a href="#thrust">Thrust / 強い値動き</a>
+        <a href="#style">Style / スタイル</a>
+        <a href="#big-state">Big State / 特殊相場</a>
+        <a href="#practical">PRACTICAL ENTRY / 実戦ENTRY</a>
       </nav>
     </div>
   </header>
@@ -625,15 +661,15 @@
     <section class="hero">
       <div class="w heroGrid">
         <div>
-          <span class="kicker">G SCAL / PUBLIC PREVIEW</span>
-          <div class="product">RoboMei Interpretation</div>
-          <h1>G<br>SCAL</h1>
+          <span class="kicker">G SCAL / Gスキャル<br>PUBLIC PREVIEW / 公開版</span>
+          <div class="product">RoboMei Interpretation / RoboMei解釈版</div>
+          <h1>G<br>SCAL<i class="jp">Gスキャル</i></h1>
           <p class="sub">THRUSTを認定する。<br>トレンドの一部を獲得する。</p>
           <p class="intro">G Scal は、形成されたトレンドの天井から底まで全てを取り切ることを目的としません。State Judge のあと Thrust を認定し、Tradeable になってから ENTRY を構築します。現在公開する詳細 Logic は <strong>BIG STATE</strong> です。</p>
           <p class="intro" style="margin-top:12px"><strong>大きな値動きを追わない。次のENTRY Pointが形成されるまで待つ。</strong></p>
           <div class="flowline" aria-label="G Scal structure">
-            <b>STANDARD STATE</b><span>/</span>
-            <b>BIG STATE</b>
+            <b>STANDARD STATE<i class="jp">通常相場</i></b><span>/</span>
+            <b>BIG STATE<i class="jp">大きく動く特殊相場</i></b>
           </div>
         </div>
         <aside class="mei">
@@ -647,28 +683,28 @@
     <section id="overview">
       <div class="w">
         <div class="sh">
-          <div class="no">G SCAL</div>
+          <div class="no">G SCAL<i class="jp">Gスキャル</i><br>OVERVIEW<i class="jp">全体像</i></div>
           <div>
-            <h2>RoboMei Interpretation の全体像。</h2>
+            <h2>RoboMei Interpretation / RoboMei解釈版 の全体像。</h2>
             <p class="lead">G Scal は State Judge から始まる。現在の相場を STANDARD STATE または BIG STATE として扱ったあと、Thrust Judge で Tradeable かどうかを見る。BIG STATE と STANDARD STATE は完全に別の Trading Logic ではない。今回詳細を公開するのは BIG STATE。STANDARD STATE の詳細 Logic は今回創作しない。</p>
           </div>
         </div>
         <div class="card tree" id="state">
-          <div class="tree-node">STATE JUDGE</div>
+          <div class="tree-node">STATE JUDGE<i class="jp">相場状態の判定</i></div>
           <div class="tree-stem"></div>
           <div class="tree-bar"></div>
           <div class="tree-fork">
             <div class="tree-col">
               <div class="tree-stem"></div>
               <div class="tree-leaf">
-                <b>STANDARD STATE</b>
+                <b>STANDARD STATE<i class="jp">通常相場</i></b>
                 <span>TP 35 / LC 60</span>
               </div>
             </div>
             <div class="tree-col">
               <div class="tree-stem"></div>
               <div class="tree-leaf">
-                <b>BIG STATE</b>
+                <b>BIG STATE<i class="jp">大きく動く特殊相場</i></b>
                 <span>TP 60 / LC 100</span>
               </div>
             </div>
@@ -681,7 +717,7 @@
     <section class="alt">
       <div class="w">
         <div class="sh">
-          <div class="no">STATE</div>
+          <div class="no">STATE<i class="jp">相場状態</i></div>
           <div>
             <h2>State によって切り替えるのは TP / LC。</h2>
             <p class="lead">共通する基本思想は同じ。State Judge → Thrust認定 → Tradeable → 乖離 → 乖離埋め → Granville Chance → ENTRY → トレンドの一部を獲得。切り替えるのは TP / LC の設定。</p>
@@ -689,7 +725,7 @@
         </div>
         <div class="state-cards">
           <div class="card state-card">
-            <span class="badge">STANDARD STATE</span>
+            <span class="badge">STANDARD STATE<i class="jp">通常相場</i></span>
             <div class="metrics">
               <div class="metric"><em>TP</em><strong>35</strong></div>
               <div class="metric"><em>LC</em><strong>60</strong></div>
@@ -697,7 +733,7 @@
             <p>大半の State。今回、詳細 Logic は公開しない。</p>
           </div>
           <div class="card state-card">
-            <span class="badge">BIG STATE</span>
+            <span class="badge">BIG STATE<i class="jp">大きく動く特殊相場</i></span>
             <div class="metrics">
               <div class="metric"><em>TP</em><strong>60</strong></div>
               <div class="metric"><em>LC</em><strong>100</strong></div>
@@ -709,13 +745,13 @@
           <strong>同じ Core Logic を使う。</strong>
           <p class="lead">State によって全く別のロジックを使う、という構造ではない。</p>
           <div class="flowline" aria-label="Shared core">
-            <b>STATE JUDGE</b><span>→</span>
-            <b>THRUST</b><span>→</span>
-            <b>TRADEABLE</b><span>→</span>
-            <b>KAIRI</b><span>→</span>
-            <b>FILL</b><span>→</span>
-            <b>GRANVILLE CHANCE</b><span>→</span>
-            <b>ENTRY</b>
+            <b>STATE JUDGE<i class="jp">相場状態の判定</i></b><span>→</span>
+            <b>THRUST<i class="jp">一方向への強い値動き</i></b><span>→</span>
+            <b>TRADEABLE<i class="jp">トレード可能</i></b><span>→</span>
+            <b>KAIRI<i class="jp">乖離</i></b><span>→</span>
+            <b>FILL<i class="jp">乖離埋め</i></b><span>→</span>
+            <b>GRANVILLE CHANCE<i class="jp">グランビル・チャンス</i></b><span>→</span>
+            <b>ENTRY<i class="jp">エントリー</i></b>
           </div>
         </div>
       </div>
@@ -724,7 +760,7 @@
     <section id="thrust">
       <div class="w">
         <div class="sh">
-          <div class="no">THRUST</div>
+          <div class="no">THRUST<i class="jp">一方向への強い値動き</i></div>
           <div>
             <h2>Thrust は Tradeable Judge。</h2>
             <p class="lead">Thrust は単なる値動きの名称ではない。RoboMei が「トレード可能な State になった」と認定する Judge。Thrust 認定の前に ENTRY を探しにいかない。流れは STATE JUDGE → THRUST JUDGE → THRUST認定 → TRADEABLE。</p>
@@ -732,7 +768,7 @@
         </div>
         <div class="compare">
           <div class="card">
-            <span class="badge">REFERENCE</span>
+            <span class="badge">REFERENCE<i class="jp">参考基準</i></span>
             <h3>参考としている基本</h3>
             <dl>
               <dt>EMA13</dt>
@@ -744,11 +780,11 @@
           </div>
           <div class="card">
             <span class="badge">ROBO MEI</span>
-            <h3>Interpretation</h3>
+            <h3>INTERPRETATION<i class="jp">RoboMei解釈</i></h3>
             <dl>
-              <dt>WICK TOUCH</dt>
+              <dt>WICK TOUCH<i class="jp">ヒゲ接触</i></dt>
               <dd>EMA13へのヒゲ程度の接触は、場合により許容することがある。</dd>
-              <dt>THRUST GUIDE</dt>
+              <dt>THRUST GUIDE<i class="jp">Thrust認定の目安</i></dt>
               <dd>およそ 100–120 pips 程度から、Thrust 認定候補として見る。</dd>
             </dl>
             <p class="observe" style="margin-top:16px">100 pips = 自動認定、ではない。100–120 pips は REFERENCE / GUIDE / 目安。</p>
@@ -760,18 +796,18 @@
     <section class="alt" id="core-gscal">
       <div class="w">
         <div class="sh">
-          <div class="no">CORE</div>
+          <div class="no">CORE<i class="jp">基本ロジック</i></div>
           <div>
             <h2>G Scal が狙うのは、トレンドの一部。</h2>
             <p class="lead">THRUSTを認定する。トレンドの一部を獲得する。天井から底まで取り切ることが目的ではない。</p>
           </div>
         </div>
         <div class="card core-steps">
-          <div class="core-step"><em>01</em><div><b>STATE JUDGE</b><span>STANDARD STATE または BIG STATE として扱う。</span></div></div>
-          <div class="core-step"><em>02</em><div><b>THRUST JUDGE</b><span>Tradeable かどうかを認定する。</span></div></div>
-          <div class="core-step"><em>03</em><div><b>TRADEABLE</b><span>Thrust 認定後に、乖離 → 乖離埋め → Granville Chance を見る。</span></div></div>
-          <div class="core-step"><em>04</em><div><b>ENTRY</b><span>次の ENTRY Point が形成されるまで待つ。</span></div></div>
-          <div class="core-step"><em>05</em><div><b>PARTIAL CAPTURE</b><span>形成されたトレンドの一部を獲得する。</span></div></div>
+          <div class="core-step"><em>01</em><div><b>STATE JUDGE<i class="jp">相場状態の判定</i></b><span>STANDARD STATE または BIG STATE として扱う。</span></div></div>
+          <div class="core-step"><em>02</em><div><b>THRUST JUDGE<i class="jp">Thrust認定</i></b><span>Tradeable かどうかを認定する。</span></div></div>
+          <div class="core-step"><em>03</em><div><b>TRADEABLE<i class="jp">トレード可能</i></b><span>Thrust 認定後に、乖離 → 乖離埋め → Granville Chance を見る。</span></div></div>
+          <div class="core-step"><em>04</em><div><b>ENTRY<i class="jp">エントリー</i></b><span>次の ENTRY Point が形成されるまで待つ。</span></div></div>
+          <div class="core-step"><em>05</em><div><b>PARTIAL CAPTURE<i class="jp">トレンドの一部を獲得</i></b><span>形成されたトレンドの一部を獲得する。</span></div></div>
         </div>
       </div>
     </section>
@@ -780,18 +816,18 @@
       <div class="w">
         <div class="split-2">
           <div class="card chicken">
-            <span class="badge">ROBO MEI STYLE</span>
+            <span class="badge">ROBO MEI STYLE<i class="jp">RoboMeiのトレードスタイル</i></span>
             <b>得意技：チキン利確</b>
             <p class="quote">「また利確したあと走った……」</p>
             <p class="lead">それでもいい。これは RoboMei 自身の Trading Style。チキン利確が正しい、という一般論ではない。G Scal はトレンド全部を取り切ることを目的にしない。Thrust 認定後、形成されたトレンドの一部を獲得する。</p>
           </div>
           <div class="card" id="setup">
-            <span class="badge">ROBO MEI TRADING SETUP</span>
+            <span class="badge">ROBO MEI TRADING SETUP<i class="jp">RoboMeiのトレード環境</i></span>
             <h3 style="margin:8px 0 10px;font-size:20px;">判断と操作を分ける。</h3>
             <p class="lead">筆者は ENTRY / EXIT 操作を簡単にするため、専用 EA を使用している。EA の役割は ENTRY 操作と EXIT 操作を簡単にすること。</p>
             <div class="setup-pair">
-              <div><em>JUDGE</em><strong>RoboMei</strong></div>
-              <div><em>EXECUTION</em><strong>Simple ENTRY / EXIT EA</strong></div>
+              <div><em>JUDGE<i class="jp">裁量判断</i></em><strong>RoboMei</strong></div>
+              <div><em>EXECUTION<i class="jp">注文・決済操作</i></em><strong>Simple ENTRY / EXIT EA<i class="jp">ENTRY・EXIT操作用EA</i></strong></div>
             </div>
             <p class="observe" style="margin-top:16px">State Judge / Thrust Judge / Granville Judge / ENTRY Judge を EA が自動判定している、という説明ではない。</p>
           </div>
@@ -802,7 +838,7 @@
     <section class="alt chapter" id="big-state">
       <div class="w chapter-head">
         <div class="sh">
-          <div class="no">BIG STATE</div>
+          <div class="no">BIG STATE<i class="jp">大きく動く特殊相場</i></div>
           <div>
             <h2>現在公開する詳細 Logic。</h2>
             <p class="lead">ここから下は既存の BIG STATE 本文。大きな値動きを追わない。次のENTRY Pointが形成されるまで待つ。</p>
@@ -814,18 +850,18 @@
     <section>
       <div class="w">
         <div class="sh">
-          <div class="no">00 / DEFINE</div>
+          <div class="no">00 / DEFINE<i class="jp">定義</i></div>
           <div>
             <h2>Big Stateを認定する。</h2>
             <p class="lead">経済指標が発表されたこと自体をBig Stateとはしません。発表直後の乱高下を経て、実体Candleによる明確なThrustを確認したところから判定を開始します。</p>
           </div>
         </div>
         <div class="defs">
-          <div class="card def"><b>BIG STATE</b><p>実体Candleによって明確なThrustが確認された相場状態。</p></div>
-          <div class="card def"><b>THRUST</b><p>実体Candleによる方向性の明確な値動き。</p></div>
+          <div class="card def"><b>BIG STATE<i class="jp">大きく動く特殊相場</i></b><p>実体Candleによって明確なThrustが確認された相場状態。</p></div>
+          <div class="card def"><b>THRUST<i class="jp">一方向への強い値動き</i></b><p>実体Candleによる方向性の明確な値動き。</p></div>
           <div class="card def"><b>KAIRI / 乖離</b><p>CandleとEMA5/6、EMA13、SMA20等との価格差。</p></div>
           <div class="card def"><b>乖離埋め</b><p>Thrustで生じた乖離を解消する方向への戻し。</p></div>
-          <div class="card def"><b>GRANVILLE CHANCE</b><p>乖離をShortCandle形成によって埋めに掛かる局面。次のENTRY構築の起点。</p></div>
+          <div class="card def"><b>GRANVILLE CHANCE<i class="jp">グランビル・チャンス</i></b><p>乖離をShortCandle形成によって埋めに掛かる局面。次のENTRY構築の起点。</p></div>
           <div class="card def"><b>BIG RESISTANCE</b><p>前日高安値・上位足MA200等、Thrust進行を一時的に止め得る強い節目。</p></div>
         </div>
         <p class="observe">価格・Candle・MAは、市場参加者の判断と注文の結果として現れた「観測材料」です。</p>
@@ -835,20 +871,20 @@
     <section class="alt" id="cycle">
       <div class="w">
         <div class="sh">
-          <div class="no">01 / CYCLE</div>
+          <div class="no">01 / CYCLE<i class="jp">サイクル</i></div>
           <div>
             <h2>ENTRYではなく、サイクルを見る。</h2>
             <p class="lead">一つの形を暗記するのではなく、現在のChartがサイクルのどこにいるかを先に判断します。</p>
           </div>
         </div>
         <div class="card cycle">
-          <div class="node hot"><b>THRUST</b>方向発生</div>
-          <div class="node"><b>KAIRI</b>乖離拡大</div>
-          <div class="node"><b>FILL</b>乖離埋め</div>
-          <div class="node hot"><b>GRANVILLE</b>ShortCandle</div>
-          <div class="node"><b>ENTRY</b>判定</div>
-          <div class="node"><b>RE-THRUST</b>再進行</div>
-          <div class="node"><b>WAIT</b>次のChance</div>
+          <div class="node hot"><b>THRUST<i class="jp">一方向への強い値動き</i></b>方向発生</div>
+          <div class="node"><b>KAIRI<i class="jp">乖離</i></b>乖離拡大</div>
+          <div class="node"><b>FILL<i class="jp">乖離埋め</i></b>乖離埋め</div>
+          <div class="node hot"><b>GRANVILLE<i class="jp">グランビル・チャンス</i></b>ShortCandle</div>
+          <div class="node"><b>ENTRY<i class="jp">エントリー</i></b>判定</div>
+          <div class="node"><b>RE-THRUST<i class="jp">再Thrust</i></b>再進行</div>
+          <div class="node"><b>WAIT<i class="jp">待機</i></b>次のChance</div>
         </div>
       </div>
     </section>
@@ -856,7 +892,7 @@
     <section id="core">
       <div class="w">
         <div class="sh">
-          <div class="no">02 / CORE</div>
+          <div class="no">02 / CORE<i class="jp">基本ロジック</i></div>
           <div>
             <h2>ENTRYを探す「3つの問い」。</h2>
             <p class="lead">未知のChartでも、ShortCandleが形成されるたびに同じ3問を問い直します。</p>
@@ -864,12 +900,12 @@
         </div>
         <div class="qs">
           <div class="card q">
-            <span class="n">QUESTION 01</span>
+            <span class="n">QUESTION 01<i class="jp">問い</i></span>
             <h3>Thrustはどちら方向か？</h3>
             <p>実体CandleによるThrustが確認できていなければENTRY判定へ進みません。</p>
           </div>
           <div class="card q">
-            <span class="n">QUESTION 02</span>
+            <span class="n">QUESTION 02<i class="jp">問い</i></span>
             <h3>今はサイクルのどこか？</h3>
             <ul>
               <li>乖離拡大中 → 追わない</li>
@@ -878,7 +914,7 @@
             </ul>
           </div>
           <div class="card q">
-            <span class="n">QUESTION 03</span>
+            <span class="n">QUESTION 03<i class="jp">問い</i></span>
             <h3>ShortCandleとMAの位置関係は？</h3>
             <ul>
               <li>乖離解消済みか</li>
@@ -903,7 +939,7 @@
     <section id="entry">
       <div class="w">
         <div class="sh">
-          <div class="no">03 / ENTRY</div>
+          <div class="no">03 / ENTRY<i class="jp">エントリー</i></div>
           <div>
             <h2>ENTRY Pointは条件の組み合わせで策定する。</h2>
             <p class="lead">次の条件は排他的ではありません。複数が重なる場合も、Perfect Order完成前にENTRYを策定する場合もあります。</p>
@@ -937,7 +973,7 @@
     <section class="alt" id="flow">
       <div class="w">
         <div class="sh">
-          <div class="no">04 / FLOW</div>
+          <div class="no">04 / FLOW<i class="jp">判断フロー</i></div>
           <div>
             <h2>未知のChartで使う判定フロー。</h2>
           </div>
@@ -958,15 +994,15 @@
     <section id="case">
       <div class="w">
         <div class="sh">
-          <div class="no">05 / CASE</div>
+          <div class="no">05 / CASE<i class="jp">実例</i></div>
           <div>
             <h2>Jackson Hole 2026｜適用例</h2>
-            <p class="lead">2026/08/28 23:00 JPT。ここは普遍ロジック（UNIVERSAL LOGIC）とは分離し、上記の判断を実際のChartへ適用した Case Study / Application Example として扱います。</p>
+            <p class="lead">2026/08/28 23:00 JPT。ここは普遍ロジック（UNIVERSAL LOGIC / 共通ロジック）とは分離し、上記の判断を実際のChartへ適用した CASE STUDY / 適用例、APPLICATION EXAMPLE / 適用例 として扱います。</p>
           </div>
         </div>
         <div class="case">
           <div class="card">
-            <div class="badge">CASE STUDY</div>
+            <div class="badge">CASE STUDY<i class="jp">適用例</i></div>
             <div class="point"><b>@</b>Down Thrust後のCrossCandle。Shadowを含めEMA5/6との乖離解消を判断。</div>
             <div class="point"><b>A</b>乖離埋め完了。Thrust方向維持を前提にENTRY候補。</div>
             <div class="point"><b>★</b>EMA13 Resistance + ShortCandle。Granville Chance形成。</div>
@@ -992,7 +1028,7 @@
     <section class="chapter" id="practical">
       <div class="w">
         <div class="sh">
-          <div class="no">PRACTICAL ENTRY</div>
+          <div class="no">PRACTICAL ENTRY<i class="jp">実戦ENTRY判断</i></div>
           <div>
             <h2>XAUUSD M1 Thrust<br>実戦ENTRY判断</h2>
             <p class="lead">環境認識 → ENTRY → 見送り → 再ENTRY</p>
@@ -1002,16 +1038,16 @@
         <div class="sh" style="margin-top: 8px;">
           <div class="no">01</div>
           <div>
-            <h2>Thrustを認識する<span class="en-label">THRUST</span></h2>
+            <h2>Thrustを認識する<span class="en-label">THRUST / 一方向への強い値動き</span></h2>
             <p class="lead">M1 SMA20 Break を Thrust 計測開始の目安とする。起点から 120 pips Over を基本目安とする。ただし、120 pips を厳密な固定値とはしない。120 pips 近辺でも、EMA13 Not Touch が継続していれば Thrust が形成されている場合がある。</p>
           </div>
         </div>
         <div class="card" style="padding: 8px 22px 16px;">
           <div class="vflow">
-            <div class="item"><em>01</em><div><b>M1 SMA20 Break</b><span class="lead">起点 / Thrust計測開始の目安</span></div></div>
+            <div class="item"><em>01</em><div><b>M1 SMA20 Break</b><span class="lead">THRUST START / Thrust計測開始</span></div></div>
             <div class="item"><em>02</em><div><b>EMA13 Not Touch</b><span class="lead">継続を見る</span></div></div>
             <div class="item"><em>03</em><div><b>約120 pips以上</b><span class="lead">基本目安。厳密な固定値ではない</span></div></div>
-            <div class="item"><em>04</em><div><b>THRUST環境</b><span class="lead">120 pips は ENTRY 地点ではない</span></div></div>
+            <div class="item"><em>04</em><div><b>THRUST ENVIRONMENT<i class="jp">Thrust環境</i></b><span class="lead">120 pips は ENTRY 地点ではない</span></div></div>
           </div>
         </div>
         <p class="observe">120 pips 到達 = 自動ENTRY、ではない。</p>
@@ -1023,7 +1059,7 @@
 
         <div class="entry-grid" style="margin-top: 22px;">
           <div class="card">
-            <span class="badge">ENTRY 1</span>
+            <span class="badge">ENTRY 1<i class="jp">エントリー</i></span>
             <h3>M1 Short Candle</h3>
             <div class="vflow">
               <div class="item"><em>→</em><div><b>Thrust</b></div></div>
@@ -1035,13 +1071,13 @@
             <p class="lead" style="margin-top:12px">Thrust後、EMA付近まで戻り、M1 Short Candle形成、Candle確定を確認してENTRY。</p>
           </div>
           <div class="card">
-            <span class="badge">ENTRY 1.2</span>
+            <span class="badge">ENTRY 1.2<i class="jp">エントリー</i></span>
             <h3>EMA13 Touch</h3>
             <p class="lead">条件が良い場合は、EMA13 Touch その瞬間をENTRYとして扱う。</p>
             <p class="observe" style="margin-top:14px">EMA13 Touchなら必ずENTRY、ではない。</p>
           </div>
           <div class="card">
-            <span class="badge">ENTRY 2</span>
+            <span class="badge">ENTRY 2<i class="jp">エントリー</i></span>
             <h3>EMAとの乖離が大きい場合</h3>
             <p class="lead" style="margin-bottom:12px"><b>乖離しているなら追わない。</b></p>
             <div class="vflow">
@@ -1078,7 +1114,7 @@
           <div class="card">
             <span class="badge">C</span>
             <h3>Trend累計値幅</h3>
-            <p class="lead">Trend開始地点から累計 約500 pips まで進むと、Trendが終了するケースが多い。Trend Start → Current Price を確認する。500pips近辺では新規ENTRYを慎重に判断する。</p>
+            <p class="lead">Trend開始地点から累計 約500 pips まで進むと、Trendが終了するケースが多い。TREND START / Trend開始地点 → CURRENT PRICE / 現在価格 を確認する。500pips近辺では新規ENTRYを慎重に判断する。</p>
             <p class="observe" style="margin-top:14px">500pips = 強制終了、ではない。</p>
           </div>
           <div class="card">
@@ -1135,7 +1171,7 @@
     <section class="alt" id="real-cases">
       <div class="w">
         <div class="sh">
-          <div class="no">REAL CASES</div>
+          <div class="no">REAL CASES<i class="jp">実戦事例</i></div>
           <div>
             <h2>FXDB実例<span class="en-label">準備中</span></h2>
             <p class="lead">将来、FXDBから実例を追加する枠組み。今回は掲載しない。</p>
@@ -1159,7 +1195,7 @@
 
   <footer>
     <div class="w">
-      <div class="foot-brand">G Scal — RoboMei Interpretation / BIG STATE Public Preview</div>
+      <div class="foot-brand">G Scal / Gスキャル — RoboMei Interpretation / RoboMei解釈版 / BIG STATE / 大きく動く特殊相場 / PUBLIC PREVIEW / 公開版</div>
       <div class="credit">
         <p>本ロジックの構築にあたり、加藤ムネヒサ氏（FXゴールドナビ）が公開されているトレードロジックを参考にさせていただいています。</p>
         <p>本ページでは、それを参考にした上で、実際のチャート観察・検証を通じて独自に解釈・整理した内容を掲載しています。</p>
