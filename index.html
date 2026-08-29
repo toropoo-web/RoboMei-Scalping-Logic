@@ -646,6 +646,90 @@
       border-style: dashed;
     }
     .placeholder b { display: block; color: var(--dodgers); margin-bottom: 8px; }
+    .w-wide {
+      width: min(1480px, calc(100% - 40px));
+      margin: auto;
+    }
+    .real-chart-sample {
+      padding: 22px;
+    }
+    .real-chart-sample .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .real-chart-sample .meta strong {
+      font-size: 18px;
+      color: var(--text);
+    }
+    .real-chart-sample .meta span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .real-chart-frame {
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0b1724;
+      cursor: zoom-in;
+    }
+    .real-chart-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .real-chart-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      margin-top: 14px;
+      align-items: center;
+    }
+    .chart-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dodgers);
+      text-decoration: none;
+    }
+    .chart-link:hover { text-decoration: underline; }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(8, 18, 32, 0.86);
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: min(96vw, 1800px);
+      max-height: 92vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      background: #111;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.45);
+      color: #fff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
     .future-tags {
       display: flex;
       flex-wrap: wrap;
@@ -748,7 +832,7 @@
     }
     @media (max-width: 520px) {
       .cycle, .decision { grid-template-columns: 1fr; }
-      .w { width: calc(100% - 24px); }
+      .w, .w-wide { width: calc(100% - 24px); }
       .hero { padding: 40px 0 32px; }
       section { padding: 48px 0; }
       .to-top {
@@ -757,6 +841,7 @@
         padding: 9px 12px;
         font-size: 11px;
       }
+      .real-chart-sample { padding: 14px; }
     }
   </style>
 </head>
@@ -1009,18 +1094,28 @@
     </section>
 
     <section id="real-chart">
-      <div class="w">
+      <div class="w-wide">
         <div class="sh">
-          <div class="no">REAL CHART<i class="jp">実チャートで学ぶ</i></div>
+          <div class="no">REAL ENTRY CASES<i class="jp">実チャートENTRY集</i></div>
           <div>
             <h2>実チャートで学ぶ</h2>
-            <p class="lead">このロジックは、実チャートでの視認を身につけてもらうことを重視する。今後、ENTRY集の実チャート画像を掲載し、SMA20 Break、Thrust、Perfect Order、Thrustの長さ、M1の押し目、ShortCandle、Retrace ENTRY を実例から確認できる構成にする。</p>
+            <p class="lead">このロジックは、実チャートでの視認を身につけてもらうことを重視する。基本ロジックを実チャートで確認するための Sample を掲載する。画像クリックで拡大表示できる。</p>
           </div>
         </div>
-        <div class="card placeholder">
-          <b>REAL CHART準備中</b>
-          <p class="lead">現時点では、Repository に存在しない画像は使用しない。</p>
-        </div>
+        <article class="card real-chart-sample" id="real-chart-01">
+          <div class="meta">
+            <span class="badge">REAL CHART 01<i class="jp">実チャート例</i></span>
+            <strong>2026-08-25</strong>
+            <span>基本ロジック視認 Sample</span>
+          </div>
+          <a class="real-chart-frame" href="assets/real-charts/2026-08-25_09h46_48%20Sample.png" data-lightbox="real-chart-01" aria-label="REAL CHART 01 large view">
+            <img src="assets/real-charts/2026-08-25_09h46_48%20Sample.png" alt="REAL CHART 01 2026-08-25 sample chart" loading="lazy">
+          </a>
+          <div class="real-chart-actions">
+            <a class="chart-link" href="assets/real-charts/2026-08-25_09h46_48%20Sample.png" target="_blank" rel="noopener">原寸で開く</a>
+            <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -1472,10 +1567,7 @@
           <p class="lead">Thrust中にM1で押し目が出る。</p>
           <p class="lead">確認する形: 初のM1 ShortCandle、または M1前回高値を超えられない ShortCandle。</p>
           <p class="lead">ShortCandleは、前足が進んで生じた乖離を埋めるために形成することが多い。</p>
-          <div class="card placeholder" style="margin-top: 14px;">
-            <b>REAL CHART準備中</b>
-            <p class="lead">今後 FXDB から選定する ENTRY 実チャート画像を追加できる。今回は画像を追加しない。</p>
-          </div>
+          <a class="chart-link" href="#real-chart-01" style="display:inline-block;margin-top:12px">実チャート例を見る → REAL CHART 01</a>
           <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
         </article>
 
@@ -1497,10 +1589,7 @@
             <div class="item"><em>→</em><div><b>THRUST認定</b></div></div>
             <div class="item"><em>→</em><div><b>RETRACE ENTRY</b></div></div>
           </div>
-          <div class="card placeholder" style="margin-top: 14px;">
-            <b>REAL CHART準備中</b>
-            <p class="lead">今後 FXDB から選定する ENTRY 実チャート画像を追加できる。今回は画像を追加しない。</p>
-          </div>
+          <a class="chart-link" href="#real-chart-01" style="display:inline-block;margin-top:12px">実チャート例を見る → REAL CHART 01</a>
           <a class="back-link" href="#basic-logic">↑ 基本ロジックへ戻る</a>
         </article>
       </div>
@@ -1521,5 +1610,41 @@
     </div>
   </footer>
   <a class="to-top" href="#top">↑ TOPへ戻る</a>
+  <div class="lightbox" id="chartLightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Close large view">&times;</button>
+    <img id="chartLightboxImage" alt="REAL CHART large view">
+  </div>
+  <script>
+    (function () {
+      const lightbox = document.getElementById("chartLightbox");
+      const lightboxImage = document.getElementById("chartLightboxImage");
+      const closeButton = lightbox.querySelector(".lightbox-close");
+      function openLightbox(src, alt) {
+        lightboxImage.src = src;
+        lightboxImage.alt = alt || "REAL CHART large view";
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+      }
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.removeAttribute("src");
+      }
+      document.querySelectorAll("[data-lightbox]").forEach((trigger) => {
+        trigger.addEventListener("click", (event) => {
+          event.preventDefault();
+          const img = trigger.querySelector("img");
+          openLightbox(trigger.getAttribute("href") || (img && img.src), img ? img.alt : "");
+        });
+      });
+      closeButton.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("open")) closeLightbox();
+      });
+    })();
+  </script>
 </body>
 </html>
