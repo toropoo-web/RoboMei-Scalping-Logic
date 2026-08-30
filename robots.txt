@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://robomei-scalping.onrender.com/sitemap.xml
